@@ -21,7 +21,16 @@
             <tr>
                 <td>@game.Name</td>
                 <td>@game.Price?.ToString("N2")$</td>
-                <td>@game.SteamApp?.Id</td>
+                <td>
+                    @if(game.SteamApp?.Id != null)
+                    {
+                        @game.SteamApp.Id
+                    }
+                    else
+                    {
+                        <i class="bi bi-slash-circle-fill text-danger"></i>
+                    }
+                </td>
                 <td>
                     @foreach(var p in game.Platforms)
                     {
