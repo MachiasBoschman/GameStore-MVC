@@ -32,16 +32,10 @@
                     }
                 </td>
                 <td>
-                    @foreach(var p in game.Platforms)
-                    {
-                        @p.Name
-                    }
+                    @string.Join(", ", game.Platforms.Select(p => p.Name))
                 </td>
                 <td>
-                    @foreach (var d in game.Distributors)
-                    {
-                        @d.Name
-                    }
+                    @string.Join(", ", game.Distributors.Select(d => d.Name))
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@game.Id">Edit</a>
