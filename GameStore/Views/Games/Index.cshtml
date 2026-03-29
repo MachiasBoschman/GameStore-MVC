@@ -1,0 +1,44 @@
+﻿@model List<GameStore.Models.Game>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Index</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Steam App Id</th>
+            <th>Platform</th>
+            <th>Distributor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var game in Model)
+        {
+            <tr>
+                <td>@game.Name</td>
+                <td>@game.Price?.ToString("N2")$</td>
+                <td>@game.SteamApp?.Id</td>
+                <td>
+                    @foreach(var p in game.Platforms)
+                    {
+                        @p.Name
+                    }
+                </td>
+                <td>
+                    @foreach (var d in game.Distributors)
+                    {
+                        @d.Name
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@game.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@game.Id">Delete</a>
+                </td> 
+            </tr>
+        }
+    </tbody>
+</table>

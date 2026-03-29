@@ -1,0 +1,26 @@
+﻿@model GameStore.ViewModels.GameFormViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+<h3>Create an item</h3>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Game.Name">Name</label>
+        <input type="text" class="form-control" asp-for="Game.Name"/>
+    </div>
+    <div class="form-group">
+        <label for="Game.Price">Price</label>
+        <input type="text" class="form-control" asp-for="Game.Price" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Platforms">Platform</label>
+        <select asp-for="PlatformIds" asp-items="Model.Platforms" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Distributors">Platform</label>
+        <select asp-for="DistributorIds" asp-items="Model.Distributors" class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

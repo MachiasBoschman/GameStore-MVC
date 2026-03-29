@@ -1,0 +1,12 @@
+﻿@model GameStore.Models.Game
+@{
+    var message = "Hello, World!";
+}
+<p>This is the name of the game @Model.Name, @message</p>
+
+<form asp-action="Submit">
+    <div>
+        <input asp-for="Name" />
+    </div>
+    <button type="submit">Submit</button>
+</form>

@@ -52,3 +52,16 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Visual Studio folder
+.vs/
+
+# App Settings
+appsettings.json
+appsettings.Development.json
+
+# User Specific Files
+*.user
+
+# Third Party Libraries
+**/wwwroot/lib/
