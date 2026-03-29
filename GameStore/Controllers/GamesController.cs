@@ -65,25 +65,60 @@ namespace GameStore.Controllers
         // Return the model of the requested DB entry to the view
         public async Task<IActionResult> Edit(int id)
         {
-            var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == id);
-            return View(game);
+            // Try to find a game in the DB with given ID from url
+            var game = await _context.Games
+                .Include(g => g.SteamApp)
+                .Include(g => g.Platforms)
+                .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
+
+            // If game is null, display error 404 response
+            if (game == null) return NotFound();
+
+            // Create FormViewModel for fluid interaction with forms
+            var ViewModel = new GameFormViewModel();
+            ViewModel.Game = game;
+            ViewModel.PlatformIds = ViewModel.Game.Platforms.Select(p => p.Id).ToList();
+            ViewModel.DistributorIds = ViewModel.Game.Distributors.Select(d => d.Id).ToList();
+            // Separate Lists for display in dropdowns
+            await PopulateDropdowns(ViewModel);
+            return View(ViewModel);
         }
         // Update the existing DB entry with the input fields from the view
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price, PlatformId")] Game game)
+        public async Task<IActionResult> Edit(GameFormViewModel ViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Games.Update(game);
+                var game = await _context.Games
+                    .Include(g => g.Platforms)
+                    .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == ViewModel.Game.Id);
+
+                if (game == null) return NotFound();
+
+                game.Name = ViewModel.Game.Name;
+                game.Price = ViewModel.Game.Price;
+
+                game.Platforms = await _context.Platforms
+                    .Where(p => ViewModel.PlatformIds.Contains(p.Id))
+                    .ToListAsync();
+                game.Distributors = await _context.Distributors
+                    .Where(d => ViewModel.DistributorIds.Contains(d.Id))
+                    .ToListAsync();
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(game);
+
+            await PopulateDropdowns(ViewModel);
+            return View(ViewModel);
         }
         // Return the model of the requested DB entry to the view
         public async Task<IActionResult> Delete(int id)
         {
-            var game = await _context.Games.FirstOrDefaultAsync(x => x.Id == id);
+            var game = await _context.Games
+                .Include(g => g.SteamApp)
+                .Include(g => g.Platforms)
+                .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
             return View(game);
         }
         // Confirm the deletion process, after pressing delete in the view.

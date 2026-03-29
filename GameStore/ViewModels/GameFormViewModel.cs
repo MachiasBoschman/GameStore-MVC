@@ -8,12 +8,12 @@ namespace GameStore.ViewModels
         // Null for Create, populated for Edit
         public Game Game { get; set; } = null!;
 
-        // Dropdown options to display
+        // The full list of available options to populate the dropdown
         public IEnumerable<SelectListItem> Platforms { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> Distributors { get; set; } = new List<SelectListItem>();
 
-        // Selected values
-        public int[] PlatformIds { get; set; } = Array.Empty<int>();
-        public int[] DistributorIds { get; set; } = Array.Empty<int>();
+        // The selected ids submitted from the form
+        public List<int> PlatformIds { get; set; } = new List<int>();
+        public List<int> DistributorIds { get; set; } = new List<int>();
     }
 }

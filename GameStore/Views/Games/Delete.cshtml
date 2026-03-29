@@ -9,16 +9,10 @@
 <p>@Model.Price $</p>
 <p>@Model.SteamApp?.Id</p>
 <p>
-    @foreach (var d in Model.Platforms)
-    {
-        @d.Name
-    }
+    @string.Join(", ", Model.Platforms.Select(p => p.Name))
 </p>
 <p>
-    @foreach (var d in Model.Distributors)
-    {
-        @d.Name
-    }
+    @string.Join(", ", Model.Distributors.Select(d => d.Name))
 </p>
 <form asp-action="Delete" method="post"> 
     <input type="hidden" asp-for="Id"/>
