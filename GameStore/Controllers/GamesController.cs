@@ -9,13 +9,16 @@ namespace GameStore.Controllers
 {
     public class GamesController : Controller
     {
+        // Stores the context of the DB in the GamesController.
         private readonly GameStoreContext _context;
 
+        // GamesController automatically requests a connection with the DB on creation.
         public GamesController(GameStoreContext context)
         {
             _context = context;
         }
-
+        // Simple getter Index page, includes all connections from Games
+        // And wraps it as a model for /Games/Index
         public async Task<IActionResult> Index()
         {
             var games = await _context.Games
@@ -24,39 +27,48 @@ namespace GameStore.Controllers
                 .Include(g => g.Distributors).ToListAsync();
             return View(games);
         }
-
+        // This action populates the dropdowns needed for
+        // the empty form of the Create view.
         public async Task<IActionResult> Create()
         {
             var ViewModel = new GameFormViewModel();
             await PopulateDropdowns(ViewModel);
             return View(ViewModel);
         }
+        // This handles the post functionality of the form
         [HttpPost]
         public async Task<IActionResult> Create(GameFormViewModel ViewModel)
         {
             if (ModelState.IsValid)
             {
+                // Adds all Platform connections in the temporary viewmodel class
+                // Where PlatformIds from the actual DB match with the chosen PlatformIds from the forms
                 ViewModel.Game.Platforms = await _context.Platforms
                     .Where(p => ViewModel.PlatformIds.Contains(p.Id))
                     .ToListAsync();
+                // Adds all Distributor connections in the temporary viewmodel class
+                // Where DistributorIds from the actual DB match with the chosen DistributorIds from the forms
                 ViewModel.Game.Distributors = await _context.Distributors
                     .Where(d => ViewModel.DistributorIds.Contains(d.Id))
                     .ToListAsync();
-
+                // Finally add the temporary Game object into the actual DB
                 _context.Games.Add(ViewModel.Game);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
+            // If validation failed, repopulate the dropdowns
+            // Return the form once again, but with error messages
+            // User has a chance to fix mistakes (previous input preserved)
             await PopulateDropdowns(ViewModel);
             return View(ViewModel);
         }
-
+        // Return the model of the requested DB entry to the view
         public async Task<IActionResult> Edit(int id)
         {
-            var game = await _context.Games.FirstOrDefaultAsync(x => x.Id == id);
+            var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == id);
             return View(game);
         }
+        // Update the existing DB entry with the input fields from the view
         [HttpPost]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price, PlatformId")] Game game)
         {
@@ -68,11 +80,14 @@ namespace GameStore.Controllers
             }
             return View(game);
         }
+        // Return the model of the requested DB entry to the view
         public async Task<IActionResult> Delete(int id)
         {
             var game = await _context.Games.FirstOrDefaultAsync(x => x.Id == id);
             return View(game);
         }
+        // Confirm the deletion process, after pressing delete in the view.
+        // Only delete if the DB entry still exists.
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -84,7 +99,7 @@ namespace GameStore.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        // Helper method to populate dropdowns for creating or editing operations
         private async Task PopulateDropdowns(GameFormViewModel ViewModel)
         {
             ViewModel.Platforms = new SelectList(await _context.Platforms.ToListAsync(), "Id", "Name");
