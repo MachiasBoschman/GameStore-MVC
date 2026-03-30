@@ -9,6 +9,9 @@
 <p>@Model.Price $</p>
 <p>@Model.SteamApp?.Id</p>
 <p>
+    @string.Join(", ", Model.Genres.Select(g => g.Name))
+</p>
+<p>
     @string.Join(", ", Model.Platforms.Select(p => p.Name))
 </p>
 <p>

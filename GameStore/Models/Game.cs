@@ -7,7 +7,7 @@
         public double? Price { get; set; }
         public int? SteamAppId { get; set; }
         public SteamApp? SteamApp { get; set; }
-
+        public ICollection<Genre> Genres { get; set; } = new List<Genre>();
         public ICollection<Platform> Platforms { get; set; } = new List<Platform>();
         public ICollection<Distributor> Distributors { get; set; } = new List<Distributor>();
     }

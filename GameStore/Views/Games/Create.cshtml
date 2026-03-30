@@ -14,6 +14,10 @@
         <input type="text" class="form-control" asp-for="Game.Price" />
     </div>
     <div class="form-group">
+        <label asp-for="Genres">Genres</label>
+        <select asp-for="GenreIds" asp-items="Model.Genres" class="form-control" multiple></select>
+    </div>
+    <div class="form-group">
         <label asp-for="Platforms">Platform</label>
         <select asp-for="PlatformIds" asp-items="Model.Platforms" class="form-control" multiple></select>
     </div>
@@ -24,9 +28,10 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
-@section Scripts{
+@section Scripts {
     <script>
         $(document).ready(function(){
+            $('#GenreIds').select2();
             $('#PlatformIds').select2();
             $('#DistributorIds').select2();
         });

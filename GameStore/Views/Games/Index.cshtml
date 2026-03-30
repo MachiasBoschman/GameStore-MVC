@@ -11,6 +11,7 @@
             <th>Name</th>
             <th>Price</th>
             <th>Steam App Id</th>
+            <th>Genres</th>
             <th>Platform</th>
             <th>Distributor</th>
         </tr>
@@ -30,6 +31,9 @@
                     {
                         <i class="bi bi-slash-circle-fill text-danger"></i>
                     }
+                </td>
+                <td>
+                    @string.Join(", ", game.Genres.Select(g => g.Name))
                 </td>
                 <td>
                     @string.Join(", ", game.Platforms.Select(p => p.Name))

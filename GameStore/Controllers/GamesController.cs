@@ -23,6 +23,7 @@ namespace GameStore.Controllers
         {
             var games = await _context.Games
                 .Include(g => g.SteamApp)
+                .Include(g => g.Genres)
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors).ToListAsync();
             return View(games);
@@ -41,6 +42,11 @@ namespace GameStore.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Adds all Genre connections in the temporary viewmodel class
+                // Where GenreIds from the actual DB match with the chosen GenreIds from the forms
+                ViewModel.Game.Genres = await _context.Genres
+                    .Where(g => ViewModel.GenreIds.Contains(g.Id))
+                    .ToListAsync();
                 // Adds all Platform connections in the temporary viewmodel class
                 // Where PlatformIds from the actual DB match with the chosen PlatformIds from the forms
                 ViewModel.Game.Platforms = await _context.Platforms
@@ -68,6 +74,7 @@ namespace GameStore.Controllers
             // Try to find a game in the DB with given ID from url
             var game = await _context.Games
                 .Include(g => g.SteamApp)
+                .Include(g => g.Genres)
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
 
@@ -77,6 +84,7 @@ namespace GameStore.Controllers
             // Create FormViewModel for fluid interaction with forms
             var ViewModel = new GameFormViewModel();
             ViewModel.Game = game;
+            ViewModel.GenreIds = ViewModel.Game.Genres.Select(g => g.Id).ToList(); 
             ViewModel.PlatformIds = ViewModel.Game.Platforms.Select(p => p.Id).ToList();
             ViewModel.DistributorIds = ViewModel.Game.Distributors.Select(d => d.Id).ToList();
             // Separate Lists for display in dropdowns
@@ -90,6 +98,7 @@ namespace GameStore.Controllers
             if (ModelState.IsValid)
             {
                 var game = await _context.Games
+                    .Include(g => g.Genres)
                     .Include(g => g.Platforms)
                     .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == ViewModel.Game.Id);
 
@@ -98,6 +107,9 @@ namespace GameStore.Controllers
                 game.Name = ViewModel.Game.Name;
                 game.Price = ViewModel.Game.Price;
 
+                game.Genres = await _context.Genres
+                    .Where(g => ViewModel.GenreIds.Contains(g.Id))
+                    .ToListAsync();
                 game.Platforms = await _context.Platforms
                     .Where(p => ViewModel.PlatformIds.Contains(p.Id))
                     .ToListAsync();
@@ -116,6 +128,7 @@ namespace GameStore.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var game = await _context.Games
+                .Include(g => g.Genres)
                 .Include(g => g.SteamApp)
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
@@ -137,6 +150,7 @@ namespace GameStore.Controllers
         // Helper method to populate dropdowns for creating or editing operations
         private async Task PopulateDropdowns(GameFormViewModel ViewModel)
         {
+            ViewModel.Genres = new SelectList(await _context.Genres.ToListAsync(), "Id", "Name");
             ViewModel.Platforms = new SelectList(await _context.Platforms.ToListAsync(), "Id", "Name");
             ViewModel.Distributors = new SelectList(await _context.Distributors.ToListAsync(), "Id", "Name");
         }
