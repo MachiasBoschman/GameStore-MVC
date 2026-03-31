@@ -1,4 +1,5 @@
 using GameStore.Data;
+using GameStore.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<GameStoreContext>(options =>
 options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnectionString"))
 );
+builder.Services.AddScoped<IGameService, GameService>();
 
 var app = builder.Build();
 
