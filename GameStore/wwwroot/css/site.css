@@ -38,3 +38,142 @@ body {
     transform: scale(1.02);
     cursor: pointer;
 }
+
+.card-game {
+    --bs-card-spacer-y: 0.5rem;
+    --bs-card-spacer-x: 0.5rem;
+}
+
+.card-game-thumbnail {
+    width: 148px;
+    height: 84px;
+    object-fit: cover;
+    object-position: center;
+    flex-shrink: 0;
+}
+
+.steam-dark {
+    background-color: #3e4637 !important;
+}
+.steam-light {
+    background-color: #4c5844 !important;
+}
+.steam-light-green {
+    background-color: #777b52 !important;
+}
+.steam-white {
+    background-color: #adb2a7 !important;
+}
+.steam-white-text {
+    color: #d5d0c8;
+}
+.steam-green-text {
+    color: #777b52;
+}
+.steam-grey-text {
+    color: #adb2a7;
+}
+
+.black-gradient-right-to-left {
+    position: relative;
+}
+
+    .black-gradient-right-to-left::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to left, rgba(0, 0, 0, 0.2), transparent);
+        z-index: 3; /* above card-main-body's z-index: 2 */
+        pointer-events: none; /* so it doesn't block clicks */
+    }
+
+.price {
+    color: #bfba4f;
+}
+
+* {
+    border-radius: 0 !important;
+    border: 0 !important;
+}
+
+.discount {
+    font-size: 14px;
+}
+
+/* Wrench panel hidden behind the main body by default */
+.card-game {
+    position: relative;
+}
+
+.card-main-body {
+    position: relative;
+    z-index: 2;
+    background: #3e4637;
+}
+
+
+
+
+
+/* Wrench icon base */
+.card-action-icon {
+    font-size: 1.6rem;
+    color: rgba(255, 255, 255, 0.3);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* Glow/pulse on wrench hover */
+.card-action-panel:hover .card-action-icon {
+    color: rgba(255, 255, 255, 0.9);
+    animation: wrench-glow 1.2s ease-in-out infinite;
+}
+
+@keyframes wrench-glow {
+    0%, 100% {
+        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+    }
+
+    50% {
+        text-shadow: 0 0 18px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.4);
+    }
+}
+.card-delete-panel {
+    right: -80px; /* starts just outside the wrench panel */
+}
+
+    /* Red glow on trash hover */
+    .card-delete-panel:hover .card-delete-icon {
+        color: rgba(255, 80, 80, 0.9);
+        animation: trash-glow 1.2s ease-in-out infinite;
+    }
+
+@keyframes trash-glow {
+    0%, 100% {
+        text-shadow: 0 0 6px rgba(255, 80, 80, 0.4);
+    }
+
+    50% {
+        text-shadow: 0 0 18px rgba(255, 80, 80, 0.9), 0 0 30px rgba(255, 80, 80, 0.4);
+    }
+}
+
+.card-action-wrapper {
+    position: absolute;
+    right: 80px;
+    top: 0;
+    bottom: 0;
+    width: 80px; 
+    z-index: 1;
+    display: flex;
+    transition: transform 0.35s ease;
+    transform: translateX(0);
+}
+
+.card-game:hover .card-action-wrapper {
+    transform: translateX(200%);
+}
+
+.card-action-panel {
+    width: 80px;
+    flex-shrink: 0;
+}
