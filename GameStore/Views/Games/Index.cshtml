@@ -3,86 +3,53 @@
     ViewData["Title"] = "Index";
 }
 
-<h3>Index</h3>
 <body class="steam-light">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Steam App Id</th>
-                <th>Genres</th>
-                <th>Platform</th>
-                <th>Distributor</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="mt-4 steam-background-wrapper">
+        <h1 class="steam-white-text">Game Library</h3>
+            <div class="black-box"></div>
+            <p class="steam-grey-text">
+                Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br /> 
+               We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br /> 
+               Check back often for updates on your favorite franchises and new additions to the store.
+           </p>
             @foreach (var game in Model)
             {
-                <tr class="game-row">
-                    <td>@game.Name</td>
-                    <td>@game.Price?.ToString("N2")$</td>
-                    <td>
-                        @if (game.SteamApp?.Id != null)
-                        {
-                            @game.SteamApp.Id
-                        }
-                        else
-                        {
-                            <i class="bi bi-slash-circle-fill text-danger"></i>
-                        }
-                    </td>
-                    <td>
-                        @string.Join(", ", game.Genres.Select(g => g.Name))
-                    </td>
-                    <td>
-                        @string.Join(", ", game.Platforms.Select(p => p.Name))
-                    </td>
-                    <td>
-                        @string.Join(", ", game.Distributors.Select(d => d.Name))
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@game.Id">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@game.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <div class="col-12 col-md-6">
-        <div class="card card-game steam-dark steam-white-text black-gradient-right-to-left">
-            <div class="row g-0">
-                <!-- Thumbnail -->
-                <div class="col-auto">
-                    <img src="https://placehold.co/148x84" class="card-game-thumbnail" />
-                </div>
+                <div class="col-12 col-md-8">
+                    <div class="card card-game steam-dark steam-white-text black-gradient-right-to-left">
+                        <div class="row g-0">
+                            <!-- Thumbnail -->
+                            <div class="col-auto">
+                                <img src="https://placehold.co/148x84" class="card-game-thumbnail" />
+                            </div>
 
-                <!-- Card body -->
-                <div class="col d-flex align-items-center px-2 gap-3 card-main-body">
-                    <!-- Name + tags, grows to fill space -->
-                    <div class="flex-grow-1 min-width-0 d-flex flex-column">
-                        <h6 class="mb-0 price">Game Name</h6>
-                        <i class="bi bi-microsoft steam-grey-text"></i>
-                        <small class="steam-green-text">Genre tags...</small>
-                    </div>
-                    <!-- Price -->
-                    <div>
-                        <p class="discount mb-0 ms-2 text-center text-decoration-line-through steam-green-text">€21.24</p>
-                        <p class="h5 mb-0 me-2 price">€21.24</p>
+                            <!-- Card body -->
+                            <div class="col d-flex align-items-center px-2 gap-3 card-main-body">
+                                <!-- Name + tags, grows to fill space -->
+                                <div class="flex-grow-1 min-width-0 d-flex flex-column">
+                                    <h6 class="mb-0 price">@game.Name</h6>
+                                    <i class="bi bi-microsoft steam-grey-text"></i>
+                                    <small class="steam-green-text">@string.Join(", ", game.Genres.Select(g => g.Name))</small>
+                                </div>
+                                <!-- Price -->
+                                <div>
+                                    <p class="discount mb-0 ms-2 text-center text-decoration-line-through steam-green-text">$69,99</p>
+                                    <p class="h5 mb-0 me-2 price">$@game.Price?.ToString("N2")</p>
+                                </div>
+                            </div>
+                            <!-- Action panels wrapper -->
+                            <div class="card-action-wrapper">
+                                <!-- Wrench panel -->
+                                <a asp-action="Edit" asp-route-id="@game.Id" class="card-action-panel steam-dark d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-wrench-adjustable card-action-icon"></i>
+                                </a>
+                                <!-- Trash panel -->
+                                <a asp-action="Delete" asp-route-id="@game.Id" class="card-action-panel steam-dark card-delete-panel d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-trash3 card-action-icon card-delete-icon"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Action panels wrapper -->
-                <div class="card-action-wrapper">
-                    <!-- Wrench panel -->
-                    <div class="card-action-panel steam-dark d-flex align-items-center justify-content-center">
-                        <i class="bi bi-wrench-adjustable card-action-icon"></i>
-                    </div>
-                    <!-- Trash panel -->
-                    <div class="card-action-panel steam-dark card-delete-panel d-flex align-items-center justify-content-center">
-                        <i class="bi bi-trash3 card-action-icon card-delete-icon"></i>
-                    </div>
-                </div>
+            }
             </div>
-        </div>
-    </div>
 </body>
