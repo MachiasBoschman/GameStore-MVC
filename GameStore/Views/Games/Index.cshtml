@@ -4,7 +4,7 @@
 }
 <!-- PAGE HEADING -->
     <div class="my-4 steam-background-wrapper p-steam-bgwrapper">
-        <h1 class="steam-white-text">Game Library</h3>
+        <h1 class="steam-white-text">Game Library</h1>
             <h6 class="steam-white-text">
             <span class="steam-grey-text">In minutes, </span>
                 you'll be playing your favorite games
@@ -32,9 +32,9 @@
                                     <small class="steam-green-text">@string.Join(", ", game.Genres.Select(g => g.Name))</small>
                                 </div>
                                 <!-- PRICING -->
-                                <div>
+                    <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
                                     <p class="mb-0 me-2 text-end text-decoration-line-through steam-green-text">$69,99</p>
-                                    <p class="h5 mb-0 me-2 price">$@game.Price?.ToString("N2")</p>
+                                    <p class="h5 mb-0 me-2 price">@game.Price?.ToString("C2")</p>
                                 </div>
                             </div>
                             <!-- ACTION PANELS -->
