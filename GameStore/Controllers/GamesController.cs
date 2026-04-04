@@ -20,6 +20,13 @@ namespace GameStore.Controllers
         {
             return View(await _GameService.GetAllAsync()); 
         }
+
+        // Simple getter Overview page, includes one connection from Games
+        // And wraps it as a model for /Games/Overview/id
+        public async Task<IActionResult> Overview(int id)
+        {
+            return View(await _GameService.GetByIdAsync(id));
+        }
         // This action populates the dropdowns needed for
         // the empty form of the Create view.
         public async Task<IActionResult> Create()
