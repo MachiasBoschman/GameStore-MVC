@@ -16,10 +16,10 @@ namespace GameStore.Services
             _context = context;
         }
         // Create a game with data from the GameFormViewModel 
-        public async Task CreateAsync(Game game, List<int> genreIds, List<int> platformIds, List<int> distributorIds)
+        public async Task CreateAsync(GameFormViewModel vm)
         {
-            await AttachRelations(game, genreIds, platformIds, distributorIds);
-            _context.Games.Add(game);
+            await AttachRelations(vm);
+            _context.Games.Add(vm.Game);
             await _context.SaveChangesAsync();
         }
         // Fetch a game by id
@@ -40,17 +40,7 @@ namespace GameStore.Services
 
             if (existing == null) return false;
 
-            existing.Name = vm.Game.Name;
-            existing.Price = vm.Game.Price;
-            if (vm.ImageFile != null)
-            {
-                var fileName = Path.GetFileName(vm.ImageFile.FileName);
-                var savePath = Path.Combine("wwwroot/images", fileName);
-                using var stream = System.IO.File.Create(savePath);
-                await vm.ImageFile.CopyToAsync(stream);
-                existing.ImagePath = "/images/" + fileName;
-            }
-            await AttachRelations(existing, vm.GenreIds, vm.PlatformIds, vm.DistributorIds);
+            await AttachRelations(existing, vm);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -73,14 +63,39 @@ namespace GameStore.Services
                 .Include(g => g.Distributors).ToListAsync();
 
         // Helper method to assign dropdown choices to a game
-        private async Task AttachRelations(Game game, List<int> genreIds, List<int> platformIds, List<int> distributorIds)
+        private async Task AttachRelations(GameFormViewModel vm)
         {
-            game.Genres = await _context.Genres.Where(g => genreIds.Contains(g.Id)).ToListAsync();
-            game.Platforms = await _context.Platforms.Where(p => platformIds.Contains(p.Id)).ToListAsync();
-            game.Distributors = await _context.Distributors.Where(d => distributorIds.Contains(d.Id)).ToListAsync(); 
-
+            vm.Game.Genres = await _context.Genres.Where(g => vm.GenreIds.Contains(g.Id)).ToListAsync();
+            vm.Game.Platforms = await _context.Platforms.Where(p => vm.PlatformIds.Contains(p.Id)).ToListAsync();
+            vm.Game.Distributors = await _context.Distributors.Where(d => vm.DistributorIds.Contains(d.Id)).ToListAsync();
+            if (vm.ImageFile != null)
+            {
+                var fileName = Path.GetFileName(vm.ImageFile.FileName);
+                var savePath = Path.Combine("wwwroot/images", fileName);
+                using var stream = System.IO.File.Create(savePath);
+                await vm.ImageFile.CopyToAsync(stream);
+                vm.Game.ImagePath = "/images/" + fileName;
+            }
         }
 
+        // For Update — targets the tracked EF entity instead
+        private async Task AttachRelations(Game existing, GameFormViewModel vm)
+        {
+            existing.Name = vm.Game.Name;
+            existing.Price = vm.Game.Price;
+            existing.Genres = await _context.Genres.Where(g => vm.GenreIds.Contains(g.Id)).ToListAsync();
+            existing.Platforms = await _context.Platforms.Where(p => vm.PlatformIds.Contains(p.Id)).ToListAsync();
+            existing.Distributors = await _context.Distributors.Where(d => vm.DistributorIds.Contains(d.Id)).ToListAsync();
+
+            if (vm.ImageFile != null)
+            {
+                var fileName = Path.GetFileName(vm.ImageFile.FileName);
+                var savePath = Path.Combine("wwwroot/images", fileName);
+                using var stream = System.IO.File.Create(savePath);
+                await vm.ImageFile.CopyToAsync(stream);
+                existing.ImagePath = "/images/" + fileName;
+            }
+        }
 
         // Populate dropdowns for creating or editing views
         public async Task PopulateDropdownsAsync(GameFormViewModel viewModel)
@@ -99,5 +114,7 @@ namespace GameStore.Services
             vm.PlatformIds = vm.Game.Platforms.Select(p => p.Id).ToList();
             vm.DistributorIds = vm.Game.Distributors.Select(d => d.Id).ToList();
         }
+
+        
     }
 }

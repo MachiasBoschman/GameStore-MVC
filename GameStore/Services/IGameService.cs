@@ -7,7 +7,7 @@ namespace GameStore.Services
     {
         Task<List<Game>> GetAllAsync();
         Task<Game?> GetByIdAsync(int id);
-        Task CreateAsync(Game game, List<int> GenreIds, List<int> PlatformIds, List<int> DistributorIds);
+        Task CreateAsync(GameFormViewModel vm);
         Task<bool> UpdateAsync(GameFormViewModel vm);
         Task<bool> DeleteAsync(int id);
         Task PopulateDropdownsAsync(GameFormViewModel viewModel);
