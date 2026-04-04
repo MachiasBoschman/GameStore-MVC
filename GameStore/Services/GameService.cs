@@ -30,19 +30,27 @@ namespace GameStore.Services
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
         // Update a game, if it doesnt exist return false
-        public async Task<bool> UpdateAsync(Game game, List<int> GenreIds, List<int> PlatformIds, List<int> DistributorIds)
+        public async Task<bool> UpdateAsync(GameFormViewModel vm)
         {
             var existing = await _context.Games
                 .Include(g => g.Genres)
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors)
-                .FirstOrDefaultAsync(g => g.Id == game.Id);
+                .FirstOrDefaultAsync(g => g.Id == vm.Game.Id);
 
             if (existing == null) return false;
 
-            existing.Name = game.Name;
-            existing.Price = game.Price;
-            await AttachRelations(existing, GenreIds, PlatformIds, DistributorIds);
+            existing.Name = vm.Game.Name;
+            existing.Price = vm.Game.Price;
+            if (vm.ImageFile != null)
+            {
+                var fileName = Path.GetFileName(vm.ImageFile.FileName);
+                var savePath = Path.Combine("wwwroot/images", fileName);
+                using var stream = System.IO.File.Create(savePath);
+                await vm.ImageFile.CopyToAsync(stream);
+                existing.ImagePath = "/images/" + fileName;
+            }
+            await AttachRelations(existing, vm.GenreIds, vm.PlatformIds, vm.DistributorIds);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -70,6 +78,7 @@ namespace GameStore.Services
             game.Genres = await _context.Genres.Where(g => genreIds.Contains(g.Id)).ToListAsync();
             game.Platforms = await _context.Platforms.Where(p => platformIds.Contains(p.Id)).ToListAsync();
             game.Distributors = await _context.Distributors.Where(d => distributorIds.Contains(d.Id)).ToListAsync(); 
+
         }
 
 

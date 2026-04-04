@@ -62,8 +62,9 @@ namespace GameStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _GameService.UpdateAsync(vm.Game, vm.GenreIds, vm.PlatformIds, vm.DistributorIds);
+                await _GameService.UpdateAsync(vm);
                 return RedirectToAction("Index");
+
             }
 
             await _GameService.PopulateDropdownsAsync(vm);

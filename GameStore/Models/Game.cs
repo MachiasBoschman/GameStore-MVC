@@ -1,4 +1,6 @@
-﻿namespace GameStore.Models
+﻿using GameStore.ViewModels;
+
+namespace GameStore.Models
 {
     public class Game
     {
@@ -10,5 +12,6 @@
         public ICollection<Genre> Genres { get; set; } = new List<Genre>();
         public ICollection<Platform> Platforms { get; set; } = new List<Platform>();
         public ICollection<Distributor> Distributors { get; set; } = new List<Distributor>();
+        public string? ImagePath { get; set; }
     }
 }

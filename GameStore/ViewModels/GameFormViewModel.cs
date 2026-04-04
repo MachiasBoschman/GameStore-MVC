@@ -17,5 +17,6 @@ namespace GameStore.ViewModels
         public List<int> GenreIds { get; set; } = new List<int>();
         public List<int> PlatformIds { get; set; } = new List<int>();
         public List<int> DistributorIds { get; set; } = new List<int>();
+        public IFormFile? ImageFile { get; set; }
     }
 }
