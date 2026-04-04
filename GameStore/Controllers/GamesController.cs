@@ -66,7 +66,17 @@ namespace GameStore.Controllers
                 return RedirectToAction("Index");
 
             }
+            // Temporary debug — see exactly what's failing
+            var errors = ModelState
+                .Where(e => e.Value.Errors.Count > 0)
+                .Select(e => new { Field = e.Key, Errors = e.Value.Errors.Select(x => x.ErrorMessage) });
 
+            foreach (var error in errors)
+            {
+                Console.WriteLine($"Field: {error.Field}");
+                foreach (var msg in error.Errors)
+                    Console.WriteLine($"  Error: {msg}");
+            }
             await _GameService.PopulateDropdownsAsync(vm);
             return View(vm);
         }

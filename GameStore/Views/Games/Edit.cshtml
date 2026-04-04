@@ -45,8 +45,7 @@
                     <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
                             <input type="text"
                                class="form-control h5 price text-end pe-2 test min-width-150"
-                                   asp-for="Game.Price"
-                                   asp-format="{0:C2}" />
+                                   asp-for="Game.Price"/>
                         </div>
                     </div>
                 </div>
@@ -60,6 +59,13 @@
             $('#GenreIds').select2();
             $('#PlatformIds').select2();
             $('#DistributorIds').select2();
+        });
+
+                document.getElementById('thumbnailUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('thumbnailPreview').src = URL.createObjectURL(file);
+            }
         });
     </script>
 }
