@@ -1,47 +1,155 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+/* --- GLOBAL BASE --- */
+* {
+    border-radius: 0 !important;
+    border: 0 !important;
+    line-height: 1.4;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* --- STEAM COLOR PALETTE --- */
+.steam-dark {
+    background-color: #3e4637 !important;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.steam-light {
+    background-color: #4c5844 !important;
 }
 
-.game-row {
+.steam-light-green {
+    background-color: #777b52 !important;
+}
+
+.steam-white {
+    background-color: #adb2a7 !important;
+}
+
+.steam-white-text {
+    color: #d5d0c8 !important;
+}
+
+.steam-green-text {
+    color: #777b52;
+}
+
+.steam-grey-text {
+    color: #adb2a7;
+}
+
+.price {
+    color: #bfba4f;
+}
+
+/* --- TYPOGRAPHY --- */
+h1, h2, h3, h4, h5, h6, p, a, .steam-font, .price {
+    font-family: Verdana, sans-serif !important;
+    -webkit-font-smoothing: none !important;
+}
+
+h1, h2, h3, h4, h5, h6, .price {
+    font-weight: bold !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
+    letter-spacing: 0.25rem !important;
+}
+
+h1 {
+    padding-bottom: 10px;
+}
+
+p, .steam-font {
+    font-size: 12px;
+}
+
+.footer-text {
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+}
+
+/* --- NAVBAR --- */
+.bg-dark {
+    background-color: black !important;
+}
+
+.navbar {
+    padding: 10px 0px 5px 50px;
+}
+
+.navbar-brand {
+    color: #d5d0c8;
+    text-transform: uppercase;
+    padding-right: 20px;
+}
+
+.nav-item {
+    padding-right: 30px;
+}
+
+.nav-link {
+    color: #d5d0c8 !important;
+    text-transform: uppercase !important;
+    font-size: 12px !important;
+    letter-spacing: 0.05rem !important;
+}
+
+/* --- LAYOUT GIMMICKS --- */
+.steam-background-wrapper {
+    background-color: #3e4637;
+    min-height: 0px;
+}
+
+.black-box {
+    background-color: black;
+    max-width: 35px;
+    min-height: 8px;
+    margin-bottom: 20px;
+}
+
+hr {
+    height: 1px;
+    background-color: #d5d0c8;
+}
+
+.black-gradient-right-to-left {
+    position: relative;
+}
+
+    .black-gradient-right-to-left::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to left, rgba(0, 0, 0, 0.2), transparent);
+        z-index: 3;
+        pointer-events: none;
+    }
+
+/* --- GAME CARDS --- */
+.card-game {
+    position: relative;
+    min-width: 100px;
+    --bs-card-spacer-y: 0.5rem;
+    --bs-card-spacer-x: 0.5rem;
     transition: transform 0.2s ease;
 }
 
-.game-row:hover {
-    transform: scale(1.02);
-    cursor: pointer;
-}
+    .card-game:hover {
+        cursor: pointer;
+    }
 
-.card-game {
-    --bs-card-spacer-y: 0.5rem;
-    --bs-card-spacer-x: 0.5rem;
+.card-main-body {
+    position: relative;
+    z-index: 2;
+    background: #3e4637;
 }
 
 .card-game-thumbnail {
@@ -52,84 +160,27 @@ body {
     flex-shrink: 0;
 }
 
-.steam-dark {
-    background-color: #3e4637 !important;
-}
-.steam-light {
-    background-color: #4c5844 !important;
-}
-.steam-light-green {
-    background-color: #777b52 !important;
-}
-.steam-white {
-    background-color: #adb2a7 !important;
-}
-.steam-white-text {
-    color: #d5d0c8 !important;
-}
-.steam-green-text {
-    color: #777b52;
-}
-.steam-grey-text {
-    color: #adb2a7;
+/* --- CARD ANIMATIONS & ACTIONS --- */
+.card-action-wrapper {
+    position: absolute;
+    right: 80px;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 1;
+    display: flex;
+    transition: transform 0.35s ease;
+    transform: translateX(0);
 }
 
-.black-gradient-right-to-left {
-    position: relative;
-}
-.steam-background-wrapper {
-    background-color: #3e4637; 
-    min-height: 500px; 
-    padding: 45px 140px;
+.card-game:hover .card-action-wrapper {
+    transform: translateX(200%);
 }
 
-h1 {
-    padding-bottom: 10px;
+.card-action-panel {
+    width: 80px;
+    flex-shrink: 0;
 }
-.black-box {
-    background-color: black;
-    max-width: 40px;
-    min-height: 12.5px;
-    margin-bottom: 40px;
-}
-
-    .black-gradient-right-to-left::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to left, rgba(0, 0, 0, 0.2), transparent);
-        z-index: 3;
-        pointer-events: none; 
-    }
-
-.price {
-    color: #bfba4f;
-}
-
-* {
-    border-radius: 0 !important;
-    border: 0 !important;
-}
-
-.discount {
-    font-size: 14px;
-}
-
-
-.card-game {
-    position: relative;
-}
-
-.card-main-body {
-    position: relative;
-    z-index: 2;
-    background: #3e4637;
-}
-
-
-
-
-
 
 .card-action-icon {
     font-size: 1.6rem;
@@ -137,7 +188,7 @@ h1 {
     transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-
+/* EDIT BUTTON */
 .card-action-panel:hover .card-action-icon {
     color: rgba(255, 255, 255, 0.9);
     animation: wrench-glow 5s ease-in-out infinite;
@@ -152,10 +203,11 @@ h1 {
         text-shadow: 0 0 18px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.4);
     }
 }
-.card-delete-panel {
-    right: -80px; 
-}
 
+/* DELETE BUTTON */
+.card-delete-panel {
+    right: -80px;
+}
 
     .card-delete-panel:hover .card-delete-icon {
         color: rgba(255, 80, 80, 0.9);
@@ -172,55 +224,19 @@ h1 {
     }
 }
 
-.card-action-wrapper {
-    position: absolute;
-    right: 80px;
-    top: 0;
-    bottom: 0;
-    width: 80px; 
-    z-index: 1;
-    display: flex;
-    transition: transform 0.35s ease;
-    transform: translateX(0);
+/* --- 9. RESPONSIVE SPACING --- */
+.p-steam-bgwrapper-xs {
+    padding: 20px 20px;
 }
 
-.card-game:hover .card-action-wrapper {
-    transform: translateX(200%);
+@media (min-width: 768px) {
+    .p-steam-bgwrapper-md {
+        padding: 30px 60px;
+    }
 }
 
-.card-action-panel {
-    width: 80px;
-    flex-shrink: 0;
-}
-
-h1, h2, h3, h4, h5, h6, p {
-    font-family: Verdana !important;
-    -webkit-font-smoothing: none !important;
-}
-h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
-}
-h1 {
-    text-transform: uppercase;
-}
-p {
-    font-size: 12px;
-}
-.steam-font {
-    font-family: Verdana !important;
-    -webkit-font-smoothing: none !important;
-    font-size: 12px;
-}
-.navbar-brand {
-    color: #d5d0c8;
-    font-family: Verdana !important;
-    -webkit-font-smoothing: none !important;
-    text-transform: uppercase;
-}
-.bg-dark {
-    background-color: black !important;
-}
-
-.navbar {
-    padding: 20px 0px 0px 0px;
+@media (min-width: 992px) {
+    .p-steam-bgwrapper-lg {
+        padding: 45px 140px;
+    }
 }

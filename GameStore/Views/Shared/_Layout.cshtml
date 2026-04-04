@@ -11,22 +11,22 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GameStore.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="steam-light">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark  mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GameStore</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/generic_logo.png" width="150" height="38" alt="GameStore Logo" class="align-top">
+                </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="pt-4 ms-5 navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link steam-font" asp-area="" asp-controller="Games" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link steam-font" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index">Home</a>
                         </li>
                     </ul>
                 </div>
@@ -38,12 +38,29 @@
             @RenderBody()
         </main>
     </div>
+    <!-- CUSTOM FOOTER -->
+        <footer class="footer mb-4">
+            <div class="container">
+                <div class="row mx-5">
+                    <div class="d-flex steam-grey-text steam-font footer-text">
+                
+                        <div class="me-3 flex-shrink-0">
+                            <img src="~/images/generic_logo.png" width="150" height="38" alt="GameStore Logo">
+                            </div>
 
-    <footer class="footer text-muted">
-        <div class="container steam--text steam-font">
-            &copy; 2026 - GameStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+                            <div class="align-self-end">
+                                <p class="mb-0">
+                                    &copy; 2026 - Generic Game Store - I would like to thank Valve Corporation for the incredible design inspiration that defined an era of gaming.
+                                </p>
+                                <p class="mb-0">
+                                    All original design concepts and stylistic choices are credited to their respective creators.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/select2/js/select2.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
