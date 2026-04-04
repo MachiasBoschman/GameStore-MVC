@@ -23,7 +23,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="pt-4 ms-5 navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <div class="pt-4 ms-5 navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index">Home</a>
@@ -33,11 +33,11 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        <div class="container flex-grow-1">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     <!-- CUSTOM FOOTER -->
         <footer class="footer mb-4">
             <div class="container">

@@ -3,26 +3,26 @@
     ViewData["Title"] = "Index";
 }
 <!-- PAGE HEADING -->
-    <div class="my-4 steam-background-wrapper p-steam-bgwrapper-xs p-steam-bgwrapper-md p-steam-bgwrapper-lg">
+    <div class="my-4 steam-background-wrapper p-steam-bgwrapper">
         <h1 class="steam-white-text">Game Library</h3>
             <h6 class="steam-white-text">
             <span class="steam-grey-text">In minutes, </span>
                 you'll be playing your favorite games
                 </h2>
             <div class="black-box"></div>
-            <p class="steam-grey-text col-12 col-md-8">
+        <p class="steam-grey-text col-12 col-md-10 col-lg-8 ">
                 Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br /> 
                We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br /> 
                Check back often for updates on your favorite franchises and new additions to the store.
            </p>
-            <hr class="col-12 col-md-8" />
+        <hr class="col-12 col-md-10 col-lg-8 " />
             @foreach (var game in Model)
             {
-                    <div class="col-12 col-md-8 card card-game steam-dark steam-white-text black-gradient-right-to-left">
+                    <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark steam-white-text black-gradient-right-to-left">
                         <div class="row g-0">
                             <!-- THUMBNAIL -->
-                            <div class="col-auto">
-                                <img src="https://placehold.co/148x84" class="card-game-thumbnail" />
+                            <div class="card-game-thumbnail">
+                        <img src="https://placehold.co/148x84" />
                             </div>
 
                             <!-- CARD BODY -->
