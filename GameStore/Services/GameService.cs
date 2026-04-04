@@ -23,12 +23,20 @@ namespace GameStore.Services
             await _context.SaveChangesAsync();
         }
         // Fetch a game by id
-        public async Task<Game?> GetByIdAsync(int id) => 
-            await _context.Games
+        public async Task<Game?> GetByIdAsync(int id) { 
+            var game = await _context.Games
                 .Include(g => g.Genres)
                 .Include(g => g.SteamApp)
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
+
+            if (game != null && game.ImagePath != null && !File.Exists("wwwroot" + game.ImagePath))
+            {
+                game.ImagePath = null;
+            }
+
+            return game;
+        }
         // Update a game, if it doesnt exist return false
         public async Task<bool> UpdateAsync(GameFormViewModel vm)
         {
@@ -55,12 +63,23 @@ namespace GameStore.Services
             return true;
         }
         // Fetch all games
-        public async Task<List<Game>> GetAllAsync() =>
-            await _context.Games
+        public async Task<List<Game>> GetAllAsync() { 
+        
+            var games = await _context.Games
                 .Include(g => g.SteamApp)
                 .Include(g => g.Genres)
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors).ToListAsync();
+
+            foreach (var game in games)
+            {
+                if (game.ImagePath != null && !File.Exists("wwwroot" + game.ImagePath))
+                {
+                    game.ImagePath = null;
+                }
+            }
+            return games;
+        }
 
         // Helper method to assign dropdown choices to a game
         private async Task AttachRelations(GameFormViewModel vm)
