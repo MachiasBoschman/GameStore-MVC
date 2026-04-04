@@ -2,12 +2,38 @@
 @{
     var message = "Hello, World!";
 }
-<p>This is the name of the game @Model.Name, @message</p>
-
-<form asp-action="Submit">
-    <div>
-        <input asp-for="Name" />
-    </div>
-    <button type="submit">Submit</button>
-</form>
-
+<!-- PAGE HEADING -->
+    <div class="my-4 steam-background-wrapper p-steam-bgwrapper">
+        <h1 class="steam-white-text">Game Library</h1>
+            <h6 class="steam-white-text">
+            <span class="steam-grey-text">In minutes, </span>
+                you'll be playing your favorite games
+                </h6>
+            <div class="black-box"></div>
+        <p class="steam-grey-text col-12 col-md-10 col-lg-8 ">
+                Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br /> 
+               We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br /> 
+               Check back often for updates on your favorite franchises and new additions to the store.
+           </p>
+        <hr class="col-12 col-md-10 col-lg-8 " />
+                    <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark steam-white-text black-gradient-right-to-left">
+                        <div class="row g-0">
+                            <!-- THUMBNAIL -->
+                            <img src="@(Model.ImagePath ?? "https://placehold.co/148x84")" class="card-game-thumbnail" />
+                            <!-- CARD BODY -->
+                            <div class="col d-flex align-items-center px-2 gap-3 card-main-body">
+                                <!-- NAME, PLATFORM, TAGS -->
+                                <div class="flex-grow-1 min-width-0 d-flex flex-column">
+                                    <p class="mb-0 price h6">@Model.Name</p>
+                                    <i class="bi bi-microsoft steam-grey-text"></i>
+                                    <small class="steam-green-text">@string.Join(", ", Model.Genres.Select(g => g.Name))</small>
+                                </div>
+                                <!-- PRICING -->
+                    <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
+                                    <p class="mb-0 me-2 text-end text-decoration-line-through steam-green-text">$69,99</p>
+                                    <p class="h5 mb-0 me-2 price">@Model.Price?.ToString("C2")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
