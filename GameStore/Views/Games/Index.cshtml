@@ -8,7 +8,7 @@
             <h6 class="steam-white-text">
             <span class="steam-grey-text">In minutes, </span>
                 you'll be playing your favorite games
-                </h2>
+                </h6>
             <div class="black-box"></div>
         <p class="steam-grey-text col-12 col-md-10 col-lg-8 ">
                 Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br /> 
@@ -21,8 +21,7 @@
                     <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark steam-white-text black-gradient-right-to-left">
                         <div class="row g-0">
                             <!-- THUMBNAIL -->
-                        <img src="https://placehold.co/148x84" class="card-game-thumbnail" />
-
+                            <img src="@(game.ImagePath ?? "https://placehold.co/148x84")" class="card-game-thumbnail" />
                             <!-- CARD BODY -->
                             <div class="col d-flex align-items-center px-2 gap-3 card-main-body">
                                 <!-- NAME, PLATFORM, TAGS -->

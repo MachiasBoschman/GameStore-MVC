@@ -4,7 +4,7 @@
 }
 <h3>Create an item</h3>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Game.Name">Name</label>
         <input type="text" class="form-control" asp-for="Game.Name"/>
@@ -24,6 +24,10 @@
     <div class="form-group">
         <label asp-for="Distributors">Distributor</label>
         <select asp-for="DistributorIds" asp-items="Model.Distributors" class="form-control" multiple></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageFile">Image</label>
+        <input type="file" class="form-control" asp-for="ImageFile" accept="image/*" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

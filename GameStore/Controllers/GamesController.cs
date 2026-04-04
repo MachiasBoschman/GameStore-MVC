@@ -34,7 +34,7 @@ namespace GameStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _GameService.CreateAsync(vm.Game, vm.GenreIds, vm.PlatformIds, vm.DistributorIds);
+                await _GameService.CreateAsync(vm);
                 return RedirectToAction("Index");
             }
             await _GameService.PopulateDropdownsAsync(vm);
