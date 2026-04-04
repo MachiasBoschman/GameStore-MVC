@@ -135,6 +135,7 @@ hr {
     }
 
 /* --- GAME CARDS --- */
+
 .card-game {
     position: relative;
     min-width: 100px;
@@ -154,11 +155,12 @@ hr {
 }
 
 .card-game-thumbnail {
-    width: 148px;
-    height: 84px;
+    max-width: 148px;
+    max-height: 84px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
-    flex-shrink: 0;
 }
 
 /* --- CARD ANIMATIONS & ACTIONS --- */
