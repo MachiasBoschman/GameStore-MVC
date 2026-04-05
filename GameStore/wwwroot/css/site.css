@@ -1,5 +1,5 @@
 /* --- GLOBAL BASE --- */
-* {
+*:not([id^="win2k"]):not(.win2k-btn):not(.win2k-titlebar-btn) {
     border-radius: 0 !important;
     border: 0 !important;
     line-height: 1.4;
@@ -124,7 +124,7 @@ p, .steam-font, .select2-selection--multiple {
 .nav-link {
     color: #d5d0c8 !important;
     text-transform: uppercase !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
     letter-spacing: 0.05rem !important;
 }
 
@@ -310,3 +310,180 @@ textarea {
     max-height: 180px;
     object-fit: cover;
 }
+
+/* ═══════════════════════════════════════════════
+   WIN2K DIALOG — retro Windows 2000 popup
+   ═══════════════════════════════════════════════ */
+
+#win2k-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 9998;
+}
+
+#win2k-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    /* Classic Win2K window chrome */
+    background: #d4d0c8;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    box-shadow: 2px 2px 0 #000000;
+    width: 390px;
+    flex-direction: column;
+    font-family: "Tahoma", "MS Sans Serif", Arial, sans-serif;
+    font-size: 11px;
+    color: #000;
+    padding: 3px;
+}
+
+/* ── Title bar ── */
+#win2k-titlebar {
+    background: linear-gradient(to right, #0a246a, #a6caf0);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 4px 3px 6px;
+    height: 22px;
+    user-select: none;
+}
+
+#win2k-title-text {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#win2k-title-icon {
+    filter: brightness(10); /* make logo white on dark title bar */
+    opacity: 0.85;
+}
+
+#win2k-titlebar-buttons {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.win2k-titlebar-btn {
+    width: 16px;
+    height: 14px;
+    background: #d4d0c8;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #404040;
+    border-bottom: 1px solid #404040;
+    font-size: 9px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #000;
+}
+
+    .win2k-titlebar-btn:active {
+        border-top: 1px solid #404040;
+        border-left: 1px solid #404040;
+        border-right: 1px solid #ffffff;
+        border-bottom: 1px solid #ffffff;
+    }
+
+/* ── Dialog body ── */
+#win2k-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 14px 10px 14px;
+}
+
+#win2k-warn-icon {
+    font-size: 32px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+#win2k-message-area {
+    flex: 1;
+    min-width: 0;
+}
+
+#win2k-question {
+    margin: 0 0 6px 0;
+    line-height: 1.4;
+}
+
+#win2k-game-name {
+    margin: 0;
+    font-weight: bold;
+    word-break: break-word;
+}
+
+/* ── Separator (inset line) ── */
+#win2k-separator {
+    height: 2px;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #ffffff;
+    margin: 4px 4px 6px 4px;
+}
+
+/* ── Button row ── */
+#win2k-buttons {
+    display: flex;
+    flex-direction: row-reverse; /* Delete on left visually, Cancel on right */
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 2px 8px 8px 8px;
+}
+
+#win2k-delete-form {
+    display: contents; /* form doesn't break flex layout */
+}
+
+.win2k-btn {
+    min-width: 75px;
+    height: 23px;
+    padding: 0 10px;
+    background: #d4d0c8;
+    /* Dashed outer focus rectangle, always visible */
+    outline: 1px dashed #000;
+    outline-offset: -4px;
+    /* Beveled raise: light top-left, dark bottom-right */
+    border-top: 2px solid #ffffff !important;
+    border-left: 2px solid #ffffff !important;
+    border-right: 2px solid #404040 !important;
+    border-bottom: 2px solid #404040 !important;
+    font-family: "Tahoma", "MS Sans Serif", Arial, sans-serif;
+    font-size: 11px;
+    cursor: pointer;
+    color: #000;
+    white-space: nowrap;
+}
+
+    .win2k-btn:focus {
+        /* Win2K dashed focus rectangle */
+        outline: 1px dotted #000;
+        outline-offset: -4px;
+    }
+
+    .win2k-btn:active {
+        border-top: 2px solid #404040 !important;
+        border-left: 2px solid #404040 !important;
+        border-right: 2px solid #ffffff !important;
+        border-bottom: 2px solid #ffffff !important;
+        padding-top: 1px;
+        padding-left: 11px;
+    }
