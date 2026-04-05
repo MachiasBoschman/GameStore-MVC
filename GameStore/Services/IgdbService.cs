@@ -1,5 +1,8 @@
-﻿using GameStore.IgdbModels;
+﻿using GameStore.Data;
+using GameStore.IgdbModels;
 using GameStore.Options;
+using GameStore.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Json;
@@ -9,16 +12,20 @@ namespace GameStore.Services
     public class IgdbService : IIgdbService
     {
         private readonly HttpClient _httpClient;
+        // Has ClientId and ClientSecret keys
         private readonly IgdbOptions _options;
+        private readonly GameStoreContext _context;
+
 
         // Token cache
         private string? _accessToken;
         private DateTime _tokenExpiry = DateTime.MinValue;
 
-        public IgdbService(HttpClient httpClient, IOptions<IgdbOptions> options)
+        public IgdbService(HttpClient httpClient, IOptions<IgdbOptions> options, GameStoreContext context)
         {
             _httpClient = httpClient;
             _options = options.Value;
+            _context = context;
         }
 
         private async Task EnsureTokenAsync()
@@ -67,6 +74,37 @@ namespace GameStore.Services
             var results = JsonSerializer.Deserialize<List<IgdbGame>>(json);
 
             return results?.FirstOrDefault();
+        }
+
+        public async Task<GameFormViewModel> MapToViewModelAsync(IgdbGame igdbGame)
+        {
+            var vm = new GameFormViewModel();
+
+            vm.Game.Name = igdbGame.Name;
+            vm.Game.Description = igdbGame.Summary;
+
+            if (igdbGame.Cover != null)
+                vm.Game.ImagePath = "https:" + igdbGame.Cover.Url.Replace("t_thumb", "t_cover_big");
+
+            // Best-effort genre matching
+            var dbGenres = await _context.Genres.ToListAsync();
+            vm.GenreIds = dbGenres
+                .Where(dbGenre => igdbGame.Genres.Any(igdbGenre =>
+                    igdbGenre.Name.Contains(dbGenre.Name, StringComparison.OrdinalIgnoreCase) ||
+                    dbGenre.Name.Contains(igdbGenre.Name, StringComparison.OrdinalIgnoreCase)))
+                .Select(g => g.Id)
+                .ToList();
+
+            // Best-effort platform matching
+            var dbPlatforms = await _context.Platforms.ToListAsync();
+            vm.PlatformIds = dbPlatforms
+                .Where(dbPlatform => igdbGame.Platforms.Any(igdbPlatform =>
+                    igdbPlatform.Name.Contains(dbPlatform.Name, StringComparison.OrdinalIgnoreCase) ||
+                    dbPlatform.Name.Contains(igdbPlatform.Name, StringComparison.OrdinalIgnoreCase)))
+                .Select(p => p.Id)
+                .ToList();
+
+            return vm;
         }
     }
 }
