@@ -30,7 +30,7 @@ namespace GameStore.Services
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
 
-            if (game.ImagePath != null
+            if (game?.ImagePath != null
                 && !game.ImagePath.StartsWith("http")
                 && !File.Exists("wwwroot" + game.ImagePath))
             {
