@@ -57,7 +57,8 @@ footer {
 .select2-container {
     width:100% !important;
 }
-input, .select2-container--default, .select2-selection--multiple, .select2-selection__choice, .select2-selection__rendered {
+input, .select2-container--default, .select2-selection--multiple, .select2-selection__choice, 
+.select2-selection__rendered, textarea {
     background-color: transparent !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -142,7 +143,7 @@ p, .steam-font, .select2-selection--multiple {
 
 hr {
     height: 1px;
-    background-color: #d5d0c8;
+    background-color: #adb2a7;
 }
 
 .black-gradient-right-to-left {
@@ -179,6 +180,13 @@ hr {
     z-index: 2;
     pointer-events: none; 
 }
+
+textarea {
+    border: 1px solid #777b52 !important;
+}
+    textarea.form-control:focus {
+        color: #adb2a7 !important;
+    }
 /* --- GAME CARDS --- */
 
 .card-game {

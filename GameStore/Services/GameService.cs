@@ -102,6 +102,7 @@ namespace GameStore.Services
         {
             existing.Name = vm.Game.Name;
             existing.Price = vm.Game.Price;
+            existing.Description = vm.Game.Description;
             existing.Genres = await _context.Genres.Where(g => vm.GenreIds.Contains(g.Id)).ToListAsync();
             existing.Platforms = await _context.Platforms.Where(p => vm.PlatformIds.Contains(p.Id)).ToListAsync();
             existing.Distributors = await _context.Distributors.Where(d => vm.DistributorIds.Contains(d.Id)).ToListAsync();
