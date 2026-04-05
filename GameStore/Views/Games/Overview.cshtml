@@ -1,56 +1,87 @@
 ﻿@model GameStore.Models.Game
 <!-- PAGE HEADING -->
 <div class="my-4 steam-background-wrapper p-steam-bgwrapper">
-    <h1 class="steam-white-text">@Model.Name</h1>
-    <h6 class="steam-grey-text">
-        @string.Join(", ", Model.Genres.Select(g => g.Name))
-    </h6>
-    <div class="black-box"></div>
-    <hr class="col-12 col-md-10 col-lg-8 " />
-    <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark steam-white-text black-gradient-right-to-left">
-        <div class="row g-0">
-            <!-- THUMBNAIL -->
-            <img src="@(Model.ImagePath ?? "https://placehold.co/148x84")" class="card-game-thumbnail" />
-            <!-- CARD BODY -->
-            <div class="col d-flex align-items-center px-2 gap-3 card-main-body">
-                <!-- NAME, PLATFORM, TAGS -->
-                <div class="flex-grow-1 min-width-0 d-flex flex-column">
-                    <p class="mb-0 price h6">@Model.Name</p>
-                    <div class="d-flex gap-2">
-    @foreach (var platform in Model.Platforms)
-    {
-        var iconClass = platform.Name switch
-        {
-            "PC" => "bi-microsoft",
-            "Playstation" => "bi-playstation",
-            "Xbox" => "bi-xbox",
-            _ => "bi-device-hdd"
-        };
+    <div class="row g-4">
+        <div class="col-12 col-lg-8">
+            <h1 class="steam-white-text"><span class="steam-grey-text">Over</span>view</h1>
+            <div class="black-box"></div>
+            <hr class="w-100" />
+            <div class="card card-game steam-dark-green steam-white-text black-gradient-right-to-left">
+                <div class="row g-0">
+                    <!-- THUMBNAIL -->
+                    <img src="@(Model.ImagePath ?? "https://placehold.co/148x84")" class="card-game-thumbnail" />
+                    <!-- CARD BODY -->
+                    <div class="col d-flex align-items-center px-2 gap-3 card-main-body">
+                        <!-- NAME, PLATFORM, TAGS -->
+                        <div class="flex-grow-1 min-width-0 d-flex flex-column">
+                            <p class="mb-0 price h6">@Model.Name</p>
+                            <div class="d-flex gap-2">
+                                @foreach (var platform in Model.Platforms)
+                                {
+                                    var iconClass = platform.Name switch
+                                    {
+                                        "PC" => "bi-microsoft",
+                                        "Playstation" => "bi-playstation",
+                                        "Xbox" => "bi-xbox",
+                                        _ => "bi-device-hdd"
+                                    };
 
-        <i class="bi @iconClass steam-grey-text" title="@platform.Name"></i>
-    }
-</div>
-                    <small class="steam-green-text">@string.Join(", ", Model.Genres.Select(g => g.Name))</small>
+                                    <i class="bi @iconClass steam-grey-text" title="@platform.Name"></i>
+                                }
+                            </div>
+                            <small class="steam-green-text">@string.Join(", ", Model.Genres.Select(g => g.Name))</small>
+                        </div>
+                        <!-- PRICING -->
+                        <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
+                            <p class="mb-0 me-2 text-end text-decoration-line-through steam-green-text">$69,99</p>
+                            <p class="h5 mb-0 me-2 price">@Model.Price.ToString("C2")</p>
+                        </div>
+                    </div>
                 </div>
-                <!-- PRICING -->
-                <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
-                    <p class="mb-0 me-2 text-end text-decoration-line-through steam-green-text">$69,99</p>
-                    <p class="h5 mb-0 me-2 price">@Model.Price.ToString("C2")</p>
+            </div>
+            <div class="my-4">
+                <h6 class="steam-grey-text">
+                    Description
+                </h6>
+                <div class="black-box"></div>
+                <p class="steam-grey-text">
+                    Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br />
+                    We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br />
+                    Check back often for updates on your favorite franchises and new additions to the store.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+                </p>
+            </div>
+        </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="p-3 h-100 steam-darker-green">
+
+                <p class="fw-semibold steam-light-green-text  mb-3">Latest News</p>
+
+                    <div class="mb-4">
+                        <p class="steam-white-text fw-semibold mb-1">Counter-Strike 1.6 beta</p>
+                        <p class="steam-grey-text">
+                            The latest version of Counter-Strike is available via Steam now! "Would you like a tactical riot shield with that?"
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="steam-white-text fw-semibold mb-1">Half-Life 2 Media</p>
+                        <p class="steam-grey-text">
+                            Stay tuned for a blast of HL2 full-motion goodness, brought to you very soon via Steam.
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="steam-white-text fw-semibold mb-1">Got Bandwidth?</p>
+                        <p class="steam-grey-text">
+                            Several partners have already signed up to host <a>content servers</a>.
+                            If you've got at least 50megabits/sec to spare, <a>get in touch!</a>.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="my-4 col-12 col-md-10 col-lg-8">
-        <h6 class="steam-grey-text">
-            Description
-        </h6>
-        <div class="black-box"></div>
-        <p class="steam-grey-text">
-            Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br />
-            We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br />
-            Check back often for updates on your favorite franchises and new additions to the store.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-        </p>
     </div>
 </div>

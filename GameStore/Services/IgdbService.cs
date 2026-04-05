@@ -53,7 +53,7 @@ namespace GameStore.Services
             _accessToken = doc.RootElement.GetProperty("access_token").GetString();
             int expiresIn = doc.RootElement.GetProperty("expires_in").GetInt32();
             // 60s buffer, a tiny amount of time can pass between the check and the call since code is async
-            _tokenExpiry = DateTime.UtcNow.AddSeconds(expiresIn - 60); 
+            _tokenExpiry = DateTime.UtcNow.AddSeconds(expiresIn - 60);
         }
 
         public async Task<IgdbGame?> SearchGameAsync(string name)

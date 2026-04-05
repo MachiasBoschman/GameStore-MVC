@@ -19,7 +19,8 @@
     <hr class="col-12 col-md-10 col-lg-8 " />
     @foreach (var game in Model)
     {
-        <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark steam-white-text black-gradient-right-to-left">
+        <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark-green steam-white-text black-gradient-right-to-left"
+             onclick="location.href='@Url.Action("Overview", new { id = game.Id })'">
             <div class="row g-0">
                 <!-- THUMBNAIL -->
                 <img src="@(game.ImagePath ?? "https://placehold.co/148x84")" class="card-game-thumbnail" />
@@ -55,13 +56,15 @@
                     <!-- ACTION PANELS -->
                     <div class="card-action-wrapper">
                         <!-- EDIT PANEL -->
-                        <a asp-action="Edit" asp-route-id="@game.Id" class="card-action-panel steam-dark d-flex align-items-center justify-content-center">
+                        <a asp-action="Edit" asp-route-id="@game.Id" 
+                        class="card-action-panel steam-dark-green d-flex align-items-center justify-content-center"
+                               onclick="event.stopPropagation();">
                             <i class="bi bi-wrench-adjustable card-action-icon"></i>
                         </a>
                         <!-- DELETE PANEL -->
                         <button type="button"
-                                class="card-action-panel steam-dark card-delete-panel d-flex align-items-center justify-content-center"
-                                onclick="openDeleteDialog(@game.Id, '@Html.Raw(game.Name.Replace("'", "\\'"))')">
+                                class="card-action-panel steam-dark-green card-delete-panel d-flex align-items-center justify-content-center"
+                                onclick="event.stopPropagation(); openDeleteDialog(@game.Id, '@Html.Raw(game.Name.Replace("'", "\\'"))')">
                             <i class="bi bi-trash3 card-action-icon card-delete-icon"></i>
                         </button>
                     </div>

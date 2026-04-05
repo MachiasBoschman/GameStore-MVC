@@ -21,7 +21,7 @@ footer {
 }
 
 /* --- STEAM COLOR PALETTE --- */
-.steam-dark {
+.steam-dark-green {
     background-color: #3e4637 !important;
 }
 
@@ -33,12 +33,20 @@ footer {
     background-color: #777b52 !important;
 }
 
+.steam-darker-green {
+    background-color: #272e22 !important;
+}
+
+
 .steam-white {
     background-color: #adb2a7 !important;
 }
 
 .steam-white-text {
     color: #d5d0c8 !important;
+}
+.steam-light-green-text {
+    color: #bfba4f !important;
 }
 
 .steam-green-text, .select2-selection--multiple {
