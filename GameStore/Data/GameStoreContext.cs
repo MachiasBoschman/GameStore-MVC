@@ -78,7 +78,6 @@ namespace GameStore.Data
         public DbSet<Game> Games { get; set; }
         public DbSet<SteamApp> SteamApps { get; set; }
         public DbSet<Platform> Platforms { get; set; }
-        public DbSet<Distributor> Distributors { get; set; }
         public DbSet<Genre> Genres { get; set; }
     }
 }

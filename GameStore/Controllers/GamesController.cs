@@ -1,4 +1,5 @@
-﻿using GameStore.Services;
+﻿using GameStore.Models;
+using GameStore.Services;
 using GameStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,7 @@ namespace GameStore.Controllers
         public async Task<IActionResult> Create()
         {
             var vm = new GameFormViewModel();
+            vm.Game = new Game();
             await _GameService.PopulateDropdownsAsync(vm);
             return View(vm);
         }

@@ -16,7 +16,7 @@ namespace GameStore.Models
         public SteamApp? SteamApp { get; set; }
         public ICollection<Genre> Genres { get; set; } = new List<Genre>();
         public ICollection<Platform> Platforms { get; set; } = new List<Platform>();
-        public ICollection<Distributor> Distributors { get; set; } = new List<Distributor>();
+        public String? Developer { get; set; }
         public string? ImagePath { get; set; }
     }
 }

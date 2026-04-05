@@ -27,8 +27,7 @@ namespace GameStore.Services
             var game = await _context.Games
                 .Include(g => g.Genres)
                 .Include(g => g.SteamApp)
-                .Include(g => g.Platforms)
-                .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
+                .Include(g => g.Platforms).FirstOrDefaultAsync(g => g.Id == id);
 
             if (game?.ImagePath != null
                 && !game.ImagePath.StartsWith("http")
@@ -45,7 +44,6 @@ namespace GameStore.Services
             var existing = await _context.Games
                 .Include(g => g.Genres)
                 .Include(g => g.Platforms)
-                .Include(g => g.Distributors)
                 .FirstOrDefaultAsync(g => g.Id == vm.Game.Id);
 
             if (existing == null) return false;
@@ -70,8 +68,7 @@ namespace GameStore.Services
             var games = await _context.Games
                 .Include(g => g.SteamApp)
                 .Include(g => g.Genres)
-                .Include(g => g.Platforms)
-                .Include(g => g.Distributors).ToListAsync();
+                .Include(g => g.Platforms).ToListAsync();
 
             foreach (var game in games)
             {
@@ -90,7 +87,6 @@ namespace GameStore.Services
         {
             vm.Game.Genres = await _context.Genres.Where(g => vm.GenreIds.Contains(g.Id)).ToListAsync();
             vm.Game.Platforms = await _context.Platforms.Where(p => vm.PlatformIds.Contains(p.Id)).ToListAsync();
-            vm.Game.Distributors = await _context.Distributors.Where(d => vm.DistributorIds.Contains(d.Id)).ToListAsync();
             if (vm.ImageFile != null)
             {
                 var fileName = Path.GetFileName(vm.ImageFile.FileName);
@@ -109,7 +105,6 @@ namespace GameStore.Services
             existing.Description = vm.Game.Description;
             existing.Genres = await _context.Genres.Where(g => vm.GenreIds.Contains(g.Id)).ToListAsync();
             existing.Platforms = await _context.Platforms.Where(p => vm.PlatformIds.Contains(p.Id)).ToListAsync();
-            existing.Distributors = await _context.Distributors.Where(d => vm.DistributorIds.Contains(d.Id)).ToListAsync();
 
             if (vm.ImageFile != null)
             {
@@ -126,7 +121,6 @@ namespace GameStore.Services
         {
             viewModel.Genres = new SelectList(await _context.Genres.ToListAsync(), "Id", "Name");
             viewModel.Platforms = new SelectList(await _context.Platforms.ToListAsync(), "Id", "Name");
-            viewModel.Distributors = new SelectList(await _context.Distributors.ToListAsync(), "Id", "Name");
         }
         // Populate the view model's previous selections by going through the items relation
         // Only applicable for edit views
@@ -136,7 +130,6 @@ namespace GameStore.Services
             vm.Game = game;
             vm.GenreIds = vm.Game.Genres.Select(g => g.Id).ToList();
             vm.PlatformIds = vm.Game.Platforms.Select(p => p.Id).ToList();
-            vm.DistributorIds = vm.Game.Distributors.Select(d => d.Id).ToList();
         }
 
         

@@ -74,12 +74,17 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
     <script>
-        $.validator.setDefaults({ ignore: [] });
+        $.validator.setDefaults({ ignore: ':hidden:not(#Game_Price)' });
         $(document).ready(function(){
             $('#GenreIds').select2();
             $('#PlatformIds').select2();
             $('#DistributorIds').select2();
+
+            // $('#GenreIds').rules('add', { required: false });
+            // $('#PlatformIds').rules('add', { required: false });
+            // $('#DistributorIds').rules('add', { required: false });
         });
+
 
                 document.getElementById('thumbnailUpload').addEventListener('change', function(e) {
             const file = e.target.files[0];

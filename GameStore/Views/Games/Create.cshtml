@@ -2,57 +2,98 @@
 @{
     ViewData["Title"] = "Create";
 }
-<h3>Create an item</h3>
 
+
+<!-- PAGE HEADING -->
 <form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Game.Name">Name</label>
-        <div class="d-flex gap-2">
-            <input type="text" class="form-control" asp-for="Game.Name" id="gameName" />
-            <button type="button" class="btn btn-secondary" id="lookupBtn">Lookup</button>
+    <div class="my-4 steam-background-wrapper p-steam-bgwrapper">
+        <h1 class="steam-white-text col-12 col-md-10 col-lg-8">
+            Edit an item
+        </h1>
+        <h6 class="steam-white-text col-12 col-md-10 col-lg-8">
+            <span class="steam-grey-text">In minutes, </span>
+            you'll be playing your favorite games
+        </h6>
+        <div class="black-box"></div>
+        <p class="steam-grey-text col-12 col-lg-8">
+            Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br />
+            We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br />
+            Check back often for updates on your favorite franchises and new additions to the store.
+        </p>
+        <hr class="col-12  col-lg-8" />
+        <div class="col-12  col-lg-8 card card-game steam-dark steam-white-text black-gradient-right-to-left overflow-hidden">
+            <div class="d-flex">
+                <!-- THUMBNAIL -->
+                <!-- THUMBNAIL -->
+                <label for="thumbnailUpload" class="thumbnail-container">
+                    <i class="bi bi-camera"></i>
+    
+                    <img id="thumbnailPreview"
+                         src="https://placehold.co/148x84"
+                         class="card-game-thumbnail" />
+                    <input type="file" id="thumbnailUpload" asp-for="ImageFile" accept="image/*" style="display: none;" />
+                </label>
+                <!-- CARD BODY -->
+                <div class="flex-grow-1 d-flex align-items-center px-2 gap-3 card-main-body min-width">
+                    <!-- NAME, PLATFORM, TAGS -->
+                    <div class="min-width-0 d-flex flex-grow-1 flex-column overflow-hidden">
+                        <div class="d-flex align-items-center">
+                            <input type="text" class="form-control h6 price" asp-for="Game.Name" />
+                            <span asp-validation-for="Game.Name" class="text-danger text-nowrap"></span>
+                        </div>
+                        <i class="bi bi-microsoft steam-grey-text"></i>
+                        <div class="d-flex align-items-center">
+
+                        <select asp-for="GenreIds" asp-items="Model.Genres" class="form-control steam-green-text w-100" multiple></select>
+                        <span asp-validation-for="GenreIds" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <!-- PRICING -->
+
+                    <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
+                        <span asp-validation-for="Game.Price" class="text-danger text-nowrap"></span>
+                        <input type="hidden" asp-for="Game.Price" />
+                        <input type="text"
+                               class="form-control h5 price text-end pe-2 test min-width-150"
+                               value="@Model.Game.Price.ToString("C2")"
+                               oninput="document.getElementById('Game_Price').value = this.value.replace(/[^0-9.]/g, '')" />
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <span asp-validation-for="Game.Name" class="text-danger"></span>
-
+        <div class="my-4 col-12 col-md-10 col-lg-8">
+            <h6 class="steam-grey-text">
+                <label asp-for="Game.Description">Description</label>
+            </h6>
+            <div class="black-box"></div>
+            <textarea type="text" class="form-control steam-grey-text" rows="3" asp-for="Game.Description">
+            </textarea>
+        </div>
+        <input type="submit" class="btn btn-danger" value="Save" />
     </div>
-    <div class="form-group">
-        <label for="Game.Price">Price</label>
-        <input type="text" class="form-control" asp-for="Game.Price" />
-        <span asp-validation-for="Game.Price" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="Game.Description">Description</label>
-        <textarea class="form-control" asp-for="Game.Description" rows="3"></textarea>
-    </div>
-    <div class="form-group">
-        <label asp-for="Genres">Genres</label>
-        <select asp-for="GenreIds" asp-items="Model.Genres" class="form-control" multiple></select>
-    </div>
-    <div class="form-group">
-        <label asp-for="Platforms">Platform</label>
-        <select asp-for="PlatformIds" asp-items="Model.Platforms" class="form-control" multiple></select>
-    </div>
-    <div class="form-group">
-        <label asp-for="Distributors">Distributor</label>
-        <select asp-for="DistributorIds" asp-items="Model.Distributors" class="form-control" multiple></select>
-    </div>
-    <div class="form-group">
-        <label asp-for="ImageFile">Image</label>
-        <input type="file" class="form-control" asp-for="ImageFile" accept="image/*" />
-        <input type="hidden" asp-for="Game.ImagePath" id="igdbImagePath" />
-        <img id="imagePreview" src="" class="mt-2" style="max-height: 200px; display: none;" />
-
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
 @section Scripts {
-        @await Html.PartialAsync("_ValidationScriptsPartial")
-
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     <script>
-        $(document).ready(function () {
+        $.validator.setDefaults({ ignore: ':hidden:not(#Game_Price)' });
+
+        $(document).ready(function(){
             $('#GenreIds').select2();
             $('#PlatformIds').select2();
             $('#DistributorIds').select2();
+
+            // $('#GenreIds').rules('add', { required: false });
+            // $('#PlatformIds').rules('add', { required: false });
+            // $('#DistributorIds').rules('add', { required: false });
+        });
+
+                document.getElementById('thumbnailUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('thumbnailPreview').src = URL.createObjectURL(file);
+            }
         });
     </script>
 }

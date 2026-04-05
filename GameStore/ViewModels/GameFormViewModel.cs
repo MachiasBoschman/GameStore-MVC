@@ -1,5 +1,6 @@
 ﻿using GameStore.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.ViewModels
 {
@@ -14,9 +15,11 @@ namespace GameStore.ViewModels
         public IEnumerable<SelectListItem> Distributors { get; set; } = new List<SelectListItem>();
 
         // The selected ids submitted from the form
-        public List<int> GenreIds { get; set; } = new List<int>();
-        public List<int> PlatformIds { get; set; } = new List<int>();
-        public List<int> DistributorIds { get; set; } = new List<int>();
+        [Required(ErrorMessage = "Please select at least one genre.")]
+        public List<int> GenreIds { get; set; } = new();
+
+        [Required(ErrorMessage = "Please select at least one platform.")]
+        public List<int> PlatformIds { get; set; } = new();
         public IFormFile? ImageFile { get; set; }
     }
 }
