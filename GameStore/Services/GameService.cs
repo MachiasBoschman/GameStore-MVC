@@ -23,7 +23,8 @@ namespace GameStore.Services
             await _context.SaveChangesAsync();
         }
         // Fetch a game by id
-        public async Task<Game?> GetByIdAsync(int id) { 
+        public async Task<Game?> GetByIdAsync(int id)
+        {
             var game = await _context.Games
                 .Include(g => g.Genres)
                 .Include(g => g.SteamApp)
@@ -63,8 +64,9 @@ namespace GameStore.Services
             return true;
         }
         // Fetch all games
-        public async Task<List<Game>> GetAllAsync() { 
-        
+        public async Task<List<Game>> GetAllAsync()
+        {
+
             var games = await _context.Games
                 .Include(g => g.SteamApp)
                 .Include(g => g.Genres)
@@ -132,6 +134,6 @@ namespace GameStore.Services
             vm.PlatformIds = vm.Game.Platforms.Select(p => p.Id).ToList();
         }
 
-        
+
     }
 }

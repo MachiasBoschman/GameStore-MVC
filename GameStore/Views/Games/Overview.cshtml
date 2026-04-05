@@ -16,7 +16,20 @@
                 <!-- NAME, PLATFORM, TAGS -->
                 <div class="flex-grow-1 min-width-0 d-flex flex-column">
                     <p class="mb-0 price h6">@Model.Name</p>
-                    <i class="bi bi-microsoft steam-grey-text"></i>
+                    <div class="d-flex gap-2">
+    @foreach (var platform in Model.Platforms)
+    {
+        var iconClass = platform.Name switch
+        {
+            "PC" => "bi-microsoft",
+            "Playstation" => "bi-playstation",
+            "Xbox" => "bi-xbox",
+            _ => "bi-device-hdd"
+        };
+
+        <i class="bi @iconClass steam-grey-text" title="@platform.Name"></i>
+    }
+</div>
                     <small class="steam-green-text">@string.Join(", ", Model.Genres.Select(g => g.Name))</small>
                 </div>
                 <!-- PRICING -->

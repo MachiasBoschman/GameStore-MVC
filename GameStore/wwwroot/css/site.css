@@ -487,3 +487,19 @@ textarea {
         padding-top: 1px;
         padding-left: 11px;
     }
+
+
+.platform-icon-label {
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+    .platform-icon-label:hover {
+        transform: scale(1.1);
+    }
+
+/* When the hidden checkbox is checked, style the following icon */
+.platform-check:checked + .platform-icon-label i {
+    color: #bfff00 !important; /* steam-green-text */
+    text-shadow: 0 0 8px rgba(191, 255, 0, 0.4);
+}

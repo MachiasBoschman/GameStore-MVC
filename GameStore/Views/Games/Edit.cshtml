@@ -42,20 +42,46 @@
                             <input type="text" class="form-control h6 price" asp-for="Game.Name" />
                             <span asp-validation-for="Game.Name" class="text-danger text-nowrap"></span>
                         </div>
-                        <i class="bi bi-microsoft steam-grey-text"></i>
+                         <div class="d-flex align-items-center gap-3 my-2">
+                            @foreach (var platform in Model.Platforms)
+                            {
+                                var iconClass = platform.Text switch
+                                {
+                                    "PC" => "bi-microsoft",
+                                    "Playstation" => "bi-playstation",
+                                    "Xbox" => "bi-xbox",
+                                    _ => "bi-device-hdd" // Default icon
+                                };
+
+                                <div class="platform-toggle">
+                                    <input type="checkbox"
+                                           name="PlatformIds"
+                                           value="@platform.Value"
+                                           id="platform-@platform.Value"
+                                           class="d-none platform-check"
+                                    @(Model.PlatformIds.Contains(int.Parse(platform.Value)) ? "checked" : "") />
+            
+                                    <label for="platform-@platform.Value" class="platform-icon-label">
+                                        <i class="bi @iconClass steam-grey-text"></i>
+                                    </label>
+                                </div>
+                            }
+                            <span asp-validation-for="PlatformIds" class="text-danger"></span>
+                        </div>
                         <select asp-for="GenreIds" asp-items="Model.Genres" class="form-control steam-green-text w-100" multiple></select>
                     </div>
                     <!-- PRICING -->
 
                     
-                        <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
-                            <span asp-validation-for="Game.Price" class="text-danger text-nowrap"></span>
-                            <input type="hidden" asp-for="Game.Price" />
-                            <input type="text"
-                                   class="form-control h5 price text-end pe-2 test min-width-150"
-                                   value="@Model.Game.Price.ToString("C2")"
-                                   oninput="document.getElementById('Game_Price').value = this.value.replace(/[^0-9.]/g, '')" />
-                        </div>
+                    <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
+                        <span asp-validation-for="Game.Price" class="text-danger text-nowrap"></span>
+    
+                        <input type="number"
+                               asp-for="Game.Price"
+                               step="0.01"
+                               class="form-control h5 price text-end pe-2 test min-width-150"
+                               value="@Model.Game.Price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)" />
+                    </div>
 
                 </div>
             </div>
@@ -72,10 +98,10 @@
     </div>
 </form>
 @section Scripts {
+
     @await Html.PartialAsync("_ValidationScriptsPartial")
     <script>
-        $.validator.setDefaults({ ignore: ':hidden:not(#Game_Price)' });
-        $(document).ready(function(){
+$.validator.setDefaults({ ignore: ':hidden' });        $(document).ready(function(){
             $('#GenreIds').select2();
             $('#PlatformIds').select2();
             $('#DistributorIds').select2();

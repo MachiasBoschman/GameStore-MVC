@@ -12,7 +12,6 @@ namespace GameStore.ViewModels
         // The full list of available options to populate the dropdown
         public IEnumerable<SelectListItem> Genres { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> Platforms { get; set; } = new List<SelectListItem>();
-        public IEnumerable<SelectListItem> Distributors { get; set; } = new List<SelectListItem>();
 
         // The selected ids submitted from the form
         [Required(ErrorMessage = "Please select at least one genre.")]

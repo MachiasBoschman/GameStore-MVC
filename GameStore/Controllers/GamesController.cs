@@ -1,6 +1,7 @@
 ﻿using GameStore.Models;
 using GameStore.Services;
 using GameStore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.Controllers
@@ -19,6 +20,7 @@ namespace GameStore.Controllers
         }
         // Testing IgdbService game fetching through API
         // Games/TestIgdb
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> TestIgdb()
         {
             var result = await _igdbService.SearchGameAsync("Elden Ring");
@@ -39,6 +41,7 @@ namespace GameStore.Controllers
         }
         // This action populates the dropdowns needed for
         // the empty form of the Create view.
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             var vm = new GameFormViewModel();
@@ -48,6 +51,7 @@ namespace GameStore.Controllers
         }
         // This handles the post functionality of the form
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(GameFormViewModel vm)
         {
             if (ModelState.IsValid)
@@ -59,6 +63,7 @@ namespace GameStore.Controllers
             return View(vm);
         }
         // Return the model of the requested DB entry to the view
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             // Try to find a game in the DB with given ID from url
@@ -76,6 +81,7 @@ namespace GameStore.Controllers
         }
         // Update the existing DB entry with the input fields from the view
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(GameFormViewModel vm)
         {
             if (ModelState.IsValid)
@@ -89,6 +95,7 @@ namespace GameStore.Controllers
             return View(vm);
         }
         // Return the model of the requested DB entry to the view
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var game = await _GameService.GetByIdAsync(id);
@@ -97,6 +104,7 @@ namespace GameStore.Controllers
         // Confirm the deletion process, after pressing delete in the view.
         // Only delete if the DB entry still exists.
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             bool deletionStatus = await _GameService.DeleteAsync(id);

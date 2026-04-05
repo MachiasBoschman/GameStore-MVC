@@ -2,57 +2,74 @@
 @{
     ViewData["Title"] = "Index";
 }
+@inject Microsoft.AspNetCore.Identity.SignInManager<Microsoft.AspNetCore.Identity.IdentityUser> SignInManager
 <!-- PAGE HEADING -->
-    <div class="my-4 steam-background-wrapper p-steam-bgwrapper">
-        <h1 class="steam-white-text">Game Library</h1>
-            <h6 class="steam-white-text">
-            <span class="steam-grey-text">In minutes, </span>
-                you'll be playing your favorite games
-                </h6>
-            <div class="black-box"></div>
-        <p class="steam-grey-text col-12 col-md-10 col-lg-8 ">
-                Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br /> 
-               We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br /> 
-               Check back often for updates on your favorite franchises and new additions to the store.
-           </p>
-        <hr class="col-12 col-md-10 col-lg-8 " />
-            @foreach (var game in Model)
-            {
-                    <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark steam-white-text black-gradient-right-to-left">
-                        <div class="row g-0">
-                            <!-- THUMBNAIL -->
-                            <img src="@(game.ImagePath ?? "https://placehold.co/148x84")" class="card-game-thumbnail" />
-                            <!-- CARD BODY -->
-                            <div class="col d-flex align-items-center px-2 gap-3 card-main-body">
-                                <!-- NAME, PLATFORM, TAGS -->
-                                <div class="flex-grow-1 min-width-0 d-flex flex-column">
-                                    <p class="mb-0 price h6">@game.Name</p>
-                                    <i class="bi bi-microsoft steam-grey-text"></i>
-                                    <small class="steam-green-text">@string.Join(", ", game.Genres.Select(g => g.Name))</small>
-                                </div>
-                                <!-- PRICING -->
-                    <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
-                                    @* <p class="mb-0 me-2 text-end text-decoration-line-through steam-green-text">$69,99</p> *@
-                                    <p class="h5 mb-0 me-2 price">@game.Price.ToString("C2")</p>
-                                </div>
-                            </div>
-                            <!-- ACTION PANELS -->
-                            <div class="card-action-wrapper">
-                                <!-- EDIT PANEL -->
-                                <a asp-action="Edit" asp-route-id="@game.Id" class="card-action-panel steam-dark d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-wrench-adjustable card-action-icon"></i>
-                                </a>
-                                <!-- DELETE PANEL -->
-<button type="button"
-        class="card-action-panel steam-dark card-delete-panel d-flex align-items-center justify-content-center"
-        onclick="openDeleteDialog(@game.Id, '@Html.Raw(game.Name.Replace("'", "\\'"))')">
-    <i class="bi bi-trash3 card-action-icon card-delete-icon"></i>
-</button>
-                            </div>
+<div class="my-4 steam-background-wrapper p-steam-bgwrapper">
+    <h1 class="steam-white-text">Game Library</h1>
+    <h6 class="steam-white-text">
+        <span class="steam-grey-text">In minutes, </span>
+        you'll be playing your favorite games
+    </h6>
+    <div class="black-box"></div>
+    <p class="steam-grey-text col-12 col-md-10 col-lg-8 ">
+        Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br />
+        We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br />
+        Check back often for updates on your favorite franchises and new additions to the store.
+    </p>
+    <hr class="col-12 col-md-10 col-lg-8 " />
+    @foreach (var game in Model)
+    {
+        <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark steam-white-text black-gradient-right-to-left">
+            <div class="row g-0">
+                <!-- THUMBNAIL -->
+                <img src="@(game.ImagePath ?? "https://placehold.co/148x84")" class="card-game-thumbnail" />
+                <!-- CARD BODY -->
+                <div class="col d-flex align-items-center px-2 gap-3 card-main-body">
+                    <!-- NAME, PLATFORM, TAGS -->
+                    <div class="flex-grow-1 min-width-0 d-flex flex-column">
+                        <p class="mb-0 price h6">@game.Name</p>
+                        <div class="d-flex gap-2">
+                            @foreach (var platform in game.Platforms)
+                            {
+                                var iconClass = platform.Name switch
+                                {
+                                    "PC" => "bi-microsoft",
+                                    "Playstation" => "bi-playstation",
+                                    "Xbox" => "bi-xbox",
+                                    _ => "bi-device-hdd"
+                                };
+
+                                <i class="bi @iconClass steam-grey-text" title="@platform.Name"></i>
+                            }
                         </div>
+                        <small class="steam-green-text">@string.Join(", ", game.Genres.Select(g => g.Name))</small>
                     </div>
-            }
+                    <!-- PRICING -->
+                    <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
+                        @* <p class="mb-0 me-2 text-end text-decoration-line-through steam-green-text">$69,99</p> *@
+                        <p class="h5 mb-0 me-2 price">@game.Price.ToString("C2")</p>
+                    </div>
+                </div>
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <!-- ACTION PANELS -->
+                    <div class="card-action-wrapper">
+                        <!-- EDIT PANEL -->
+                        <a asp-action="Edit" asp-route-id="@game.Id" class="card-action-panel steam-dark d-flex align-items-center justify-content-center">
+                            <i class="bi bi-wrench-adjustable card-action-icon"></i>
+                        </a>
+                        <!-- DELETE PANEL -->
+                        <button type="button"
+                                class="card-action-panel steam-dark card-delete-panel d-flex align-items-center justify-content-center"
+                                onclick="openDeleteDialog(@game.Id, '@Html.Raw(game.Name.Replace("'", "\\'"))')">
+                            <i class="bi bi-trash3 card-action-icon card-delete-icon"></i>
+                        </button>
+                    </div>
+                }
             </div>
+        </div>
+    }
+</div>
 
 <!-- ══════════════════════════════════════════
      WIN2K DELETE DIALOG
