@@ -21,7 +21,7 @@ namespace GameStore.Controllers
         public async Task<IActionResult> TestIgdb()
         {
             var result = await _igdbService.SearchGameAsync("Elden Ring");
-            return Content(result, "application/json");
+            return Json(result);
         }
         // Simple getter Index page, includes all connections from Games
         // And wraps it as a model for /Games/Index

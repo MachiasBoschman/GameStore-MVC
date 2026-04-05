@@ -1,4 +1,5 @@
-﻿using GameStore.Options;
+﻿using GameStore.IgdbModels;
+using GameStore.Options;
 using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Json;
@@ -47,7 +48,7 @@ namespace GameStore.Services
             _tokenExpiry = DateTime.UtcNow.AddSeconds(expiresIn - 60); 
         }
 
-        public async Task<string> SearchGameAsync(string name)
+        public async Task<IgdbGame?> SearchGameAsync(string name)
         {
             await EnsureTokenAsync();
 
@@ -62,7 +63,10 @@ namespace GameStore.Services
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStringAsync();
+            var results = JsonSerializer.Deserialize<List<IgdbGame>>(json);
+
+            return results?.FirstOrDefault();
         }
     }
 }

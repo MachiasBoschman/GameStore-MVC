@@ -1,7 +1,9 @@
-﻿namespace GameStore.Services
+﻿using GameStore.IgdbModels;
+
+namespace GameStore.Services
 {
     public interface IIgdbService
     {
-        Task<string> SearchGameAsync(string name);
+        Task<IgdbGame?> SearchGameAsync(string name);
     }
 }
