@@ -1,4 +1,5 @@
 using GameStore.Data;
+using GameStore.Options;
 using GameStore.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,12 @@ builder.Services.AddDbContext<GameStoreContext>(options =>
 options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnectionString"))
 );
+// Bind IGDB options
+builder.Services.Configure<IgdbOptions>(builder.Configuration.GetSection("Igdb"));
+
+// Register HttpClients
+builder.Services.AddHttpClient<IIgdbService, IgdbService>();
+
 builder.Services.AddScoped<IGameService, GameService>();
 
 var app = builder.Build();

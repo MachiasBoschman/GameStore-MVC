@@ -8,11 +8,20 @@ namespace GameStore.Controllers
     {
         // Stores the context of the DB in the GamesController.
         private readonly IGameService _GameService;
+        private readonly IIgdbService _igdbService;
 
         // GamesController automatically requests a connection with the DB on creation.
-        public GamesController(IGameService GameService)
+        public GamesController(IGameService GameService, IIgdbService igdbService)
         {
             _GameService = GameService;
+            _igdbService = igdbService;
+        }
+        // Testing IgdbService game fetching through API
+        // Games/TestIgdb
+        public async Task<IActionResult> TestIgdb()
+        {
+            var result = await _igdbService.SearchGameAsync("Elden Ring");
+            return Content(result, "application/json");
         }
         // Simple getter Index page, includes all connections from Games
         // And wraps it as a model for /Games/Index
