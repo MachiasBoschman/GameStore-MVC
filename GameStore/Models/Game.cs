@@ -10,7 +10,7 @@ namespace GameStore.Models
         public string Name { get; set; } = null!;
         [Required(ErrorMessage = "Price is required.")]
         [Range(0, 200, ErrorMessage = "Price must be between 0 and 200.")]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public string? Description { get; set; }
         public int? SteamAppId { get; set; }
         public SteamApp? SteamApp { get; set; }

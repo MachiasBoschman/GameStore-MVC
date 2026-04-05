@@ -1,9 +1,11 @@
 ﻿using GameStore.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Data
 {
-    public class GameStoreContext : DbContext
+    public class GameStoreContext : IdentityDbContext<IdentityUser>
     {
         public GameStoreContext(DbContextOptions<GameStoreContext> options)
             : base(options)
@@ -58,13 +60,6 @@ namespace GameStore.Data
                     new Platform { Id = 1, Name = "PC" },
                     new Platform { Id = 2, Name = "Playstation"},
                     new Platform { Id = 3, Name = "Xbox" }
-                );
-            modelBuilder.Entity<Distributor>().HasData(
-                    new Distributor { Id = 1, Name = "Steam"},
-                    new Distributor { Id = 2, Name = "Epic Games" },
-                    new Distributor { Id = 3, Name = "Microsoft Store" },
-                    new Distributor { Id = 4, Name = "Playstation" },
-                    new Distributor { Id = 5, Name = "Xbox" }
                 );
             modelBuilder.Entity<Game>().HasData(
                     new Game { Id = 1, Name = "Call Of Duty", Price = 50, SteamAppId = 1938090 }

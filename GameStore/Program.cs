@@ -1,6 +1,7 @@
 using GameStore.Data;
 using GameStore.Options;
 using GameStore.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,9 @@ builder.Services.AddDbContext<GameStoreContext>(options =>
 options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnectionString"))
 );
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<GameStoreContext>()
+    .AddDefaultTokenProviders();
 // Bind IGDB options
 builder.Services.Configure<IgdbOptions>(builder.Configuration.GetSection("Igdb"));
 
@@ -37,6 +41,7 @@ app.UseHttpsRedirection();
 // Enable routing logic, converts URLs to corresponding controllers/actions.
 app.UseRouting();
 // Allows [Authorize] attributes to work
+app.UseAuthentication();
 app.UseAuthorization();
 // Serves custom front-end code from the wwwroot folder
 // (CSS, JS, images)
