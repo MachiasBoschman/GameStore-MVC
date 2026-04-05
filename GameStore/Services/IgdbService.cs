@@ -1,5 +1,6 @@
 ﻿using GameStore.Data;
 using GameStore.IgdbModels;
+using GameStore.Models;
 using GameStore.Options;
 using GameStore.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -79,12 +80,13 @@ namespace GameStore.Services
         public async Task<GameFormViewModel> MapToViewModelAsync(IgdbGame igdbGame)
         {
             var vm = new GameFormViewModel();
+            vm.Game = new Game();
 
             vm.Game.Name = igdbGame.Name;
             vm.Game.Description = igdbGame.Summary;
 
             if (igdbGame.Cover != null)
-                vm.Game.ImagePath = "https:" + igdbGame.Cover.Url.Replace("t_thumb", "t_cover_big");
+                vm.Game.ImagePath = "https:" + igdbGame.Cover.Url;
 
             // Best-effort genre matching
             var dbGenres = await _context.Genres.ToListAsync();

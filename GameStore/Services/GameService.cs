@@ -30,7 +30,9 @@ namespace GameStore.Services
                 .Include(g => g.Platforms)
                 .Include(g => g.Distributors).FirstOrDefaultAsync(g => g.Id == id);
 
-            if (game != null && game.ImagePath != null && !File.Exists("wwwroot" + game.ImagePath))
+            if (game.ImagePath != null
+                && !game.ImagePath.StartsWith("http")
+                && !File.Exists("wwwroot" + game.ImagePath))
             {
                 game.ImagePath = null;
             }
@@ -73,7 +75,9 @@ namespace GameStore.Services
 
             foreach (var game in games)
             {
-                if (game.ImagePath != null && !File.Exists("wwwroot" + game.ImagePath))
+                if (game.ImagePath != null
+                    && !game.ImagePath.StartsWith("http")
+                    && !File.Exists("wwwroot" + game.ImagePath))
                 {
                     game.ImagePath = null;
                 }
