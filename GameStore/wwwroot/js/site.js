@@ -42,10 +42,13 @@ function typeWriterTextArea(element, text, delay = 5) {
     let i = 0;
     return new Promise(resolve => {
         const interval = setInterval(() => {
-            element.value += text[i];
+            if (i < text.length) {
+                element.value += text[i];
+            }
             // Sync the wrapper so CSS grid height updates
             const wrapper = element.closest('.textarea-wrapper');
             if (wrapper) wrapper.dataset.value = element.value;
+
             i++;
             if (i >= text.length) {
                 clearInterval(interval);
@@ -74,10 +77,12 @@ if (lookupBtn) {
                 typeWriter(document.getElementById('gameName'), data.game.name ?? '')
             ];
 
-            if (data.game.description) {
+            // Always update description (clear it if empty, populate if available)
+            const descriptionTextarea = document.querySelector('textarea[name="Game.Description"]');
+            if (descriptionTextarea) {
                 animations.push(typeWriterTextArea(
-                    document.querySelector('textarea[name="Game.Description"]'),
-                    data.game.description
+                document.querySelector('textarea[name="Game.Description"]'),
+                    data.game.description ?? ""
                 ));
             }
 
