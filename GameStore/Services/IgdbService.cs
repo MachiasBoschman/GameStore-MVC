@@ -64,7 +64,7 @@ namespace GameStore.Services
             request.Headers.Add("Client-ID", _options.ClientId);
             request.Headers.Add("Authorization", $"Bearer {_accessToken}");
             request.Content = new StringContent(
-                $"fields name, summary, genres.name, platforms.name, cover.url; search \"{name}\"; limit 1;",
+                $"fields name, storyline, genres.name, platforms.name, cover.url; search \"{name}\"; limit 1;",
                 Encoding.UTF8,
                 "text/plain");
 
@@ -83,10 +83,10 @@ namespace GameStore.Services
             vm.Game = new Game();
 
             vm.Game.Name = igdbGame.Name;
-            vm.Game.Description = igdbGame.Summary;
+            vm.Game.Description = igdbGame.Storyline;
 
             if (igdbGame.Cover != null)
-                vm.Game.ImagePath = "https:" + igdbGame.Cover.Url;
+                vm.Game.ImagePath = "https:" + igdbGame.Cover.Url.Replace("t_thumb", "t_cover_big");
 
             // Best-effort genre matching
             var dbGenres = await _context.Genres.ToListAsync();

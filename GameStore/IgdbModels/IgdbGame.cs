@@ -10,8 +10,8 @@ namespace GameStore.IgdbModels
         [JsonPropertyName("name")]
         public string Name { get; set; } = null!;
 
-        [JsonPropertyName("summary")]
-        public string? Summary { get; set; }
+        [JsonPropertyName("storyline")]
+        public string? Storyline { get; set; }
 
         [JsonPropertyName("cover")]
         public IgdbCover? Cover { get; set; }
