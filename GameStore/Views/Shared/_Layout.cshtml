@@ -29,6 +29,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index">Home</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Info">About</a>
+                            </li>
                         </ul>
                         <ul class="navbar-nav ms-auto me-5">
                             @if (SignInManager.IsSignedIn(User))

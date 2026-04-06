@@ -82,7 +82,7 @@ input, .select2-container--default, .select2-selection--multiple, .select2-selec
 
 }
 /* --- TYPOGRAPHY --- */
-h1, h2, h3, h4, h5, h6, p, a, .steam-font, .price, .select2-selection--multiple {
+h1, h2, h3, h4, h5, h6, p, a, .steam-font, .price, .select2-selection--multiple, ul, li {
     font-family: Verdana !important;
     -webkit-font-smoothing: none !important;
 }
@@ -100,7 +100,7 @@ h1 {
     padding-bottom: 10px;
 }
 
-p, .steam-font, .select2-selection--multiple {
+p, .steam-font, .select2-selection--multiple, ul, li {
     font-size: 12px;
 }
 
