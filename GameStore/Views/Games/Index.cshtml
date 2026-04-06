@@ -17,6 +17,10 @@
         Check back often for updates on your favorite franchises and new additions to the store.
     </p>
     <hr class="col-12 col-md-10 col-lg-8 " />
+    <!-- CREATE NEW GAME CARD -->
+    <a asp-action="Create" class="col-12 col-md-10 col-lg-8 card card-game steam-dark-green steam-white-text black-gradient-right-to-left d-flex align-items-center justify-content-center" style="max-height: 120px; text-decoration: none;">
+        <i class="bi bi-plus-lg" style="font-size: clamp(2rem, 10vw, 4rem); color: #bfba4f;"></i>
+    </a>
     @foreach (var game in Model)
     {
         <div class="col-12 col-md-10 col-lg-8  card card-game steam-dark-green steam-white-text black-gradient-right-to-left"
