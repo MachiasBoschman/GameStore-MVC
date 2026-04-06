@@ -1,6 +1,19 @@
-﻿<form method="post">
-    <input name="email" placeholder="Email" />
-    <input name="password" type="password" placeholder="Password" />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <button type="submit">Register</button>
+﻿
+<style>
+    input:focus {
+        outline: none !important;
+    }
+</style>
+<form method="post">
+    <div style="width: 300px;">
+        <div class="bg-dark p-1" style="width: 100%;">
+            <p class="fw-semibold steam-light-green-text mb-0">Account information</p>
+        </div>
+        <div class="steam-dark-green p-1 ">
+            <input name="email" placeholder="Email" required />
+            <input name="password" type="password" placeholder="Password" required />
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <button type="submit" class="win2k-btn" style="outline:none">Login</button>
+    </div>
 </form>

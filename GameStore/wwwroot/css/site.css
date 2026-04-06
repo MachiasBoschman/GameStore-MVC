@@ -485,7 +485,7 @@ textarea {
     min-width: 75px;
     height: 23px;
     padding: 0 10px;
-    background: #d4d0c8;
+    background: #d4d0c8 !important;
     /* Dashed outer focus rectangle, always visible */
     outline: 1px dashed #000;
     outline-offset: -4px;
