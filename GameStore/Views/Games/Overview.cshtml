@@ -33,7 +33,6 @@
                         </div>
                         <!-- PRICING -->
                         <div class="ms-auto d-flex flex-shrink-0 flex-column align-items-end min-width-250">
-                            <p class="mb-0 me-2 text-end text-decoration-line-through steam-green-text">$69,99</p>
                             <p class="h5 mb-0 me-2 price">@Model.Price.ToString("C2")</p>
                         </div>
                     </div>
@@ -45,42 +44,47 @@
                 </h6>
                 <div class="black-box"></div>
                 <p class="steam-grey-text">
-                    Below you will find your favorite collection of titles, including recent titles and all-time favorites. <br />
-                    We are constantly working on the Steam client to optimize performance and ensure your gaming experience remains seamless. <br />
-                    Check back often for updates on your favorite franchises and new additions to the store.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
+                    @(Model.Description ?? "No description available for this game.")
                 </p>
             </div>
         </div>
 
         <div class="col-12 col-lg-4">
             <div class="h-100 steam-darker-green overflow-hidden ">
-        
+
                 <div class="bg-dark p-2">
-                    <p class="fw-semibold steam-light-green-text mb-0">Latest News</p>
+                    <p class="fw-semibold steam-light-green-text mb-0">Game Information</p>
                 </div>
                 <div class="p-2">
                     <div class="mb-4">
-                        <p class="steam-white-text fw-semibold mb-1">Counter-Strike 1.6 beta</p>
-                        <p class="steam-grey-text">
-                            The latest version of Counter-Strike is available via Steam now! "Would you like a tactical riot shield with that?"
-                        </p>
+                        <p class="steam-white-text fw-semibold mb-1">Available On</p>
+                        <div class="d-flex gap-2">
+                            @foreach (var platform in Model.Platforms)
+                            {
+                                var iconClass = platform.Name switch
+                                {
+                                    "PC" => "bi-microsoft",
+                                    "Playstation" => "bi-playstation",
+                                    "Xbox" => "bi-xbox",
+                                    _ => "bi-device-hdd"
+                                };
+                                <span title="@platform.Name" class="steam-grey-text">
+                                    <i class="bi @iconClass"></i> @platform.Name
+                                </span>
+                            }
+                        </div>
                     </div>
 
                     <div class="mb-4">
-                        <p class="steam-white-text fw-semibold mb-1">Half-Life 2 Media</p>
+                        <p class="steam-white-text fw-semibold mb-1">Genre</p>
                         <p class="steam-grey-text">
-                            Stay tuned for a blast of HL2 full-motion goodness, brought to you very soon via Steam.
+                            @string.Join(", ", Model.Genres.Select(g => g.Name))
                         </p>
                     </div>
 
                     <div>
-                        <p class="steam-white-text fw-semibold mb-1">Got Bandwidth?</p>
-                        <p class="steam-grey-text">
-                            Several partners have already signed up to host <a>content servers</a>.
-                            If you've got at least 50megabits/sec to spare, <a>get in touch!</a>.
-                        </p>
+                        <p class="steam-white-text fw-semibold mb-1">Price</p>
+                        <p class="price h5">@Model.Price.ToString("C2")</p>
                     </div>
                 </div>
             </div>
