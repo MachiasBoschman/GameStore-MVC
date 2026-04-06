@@ -1,10 +1,8 @@
-# 🎮 GameStore
+# GameStore
 
 A full-stack ASP.NET Core MVC web application styled after the classic Steam storefront. GameStore lets admins curate a catalogue of games — complete with cover art, descriptions, genres, and platform tags — while giving any visitor a clean, browsable library.
 
----
-
-## ✨ Features
+## Features
 
 ### Storefront
 - **Game library** — horizontal card layout inspired by Steam's classic UI, with cover thumbnails, platform icons, genre tags, and pricing
@@ -21,11 +19,9 @@ A full-stack ASP.NET Core MVC web application styled after the classic Steam sto
 - ASP.NET Core Identity with `IdentityUser` and role management (`Admin`)
 - Login / Register / Logout flows
 - `[Authorize(Roles = "Admin")]` guards on all mutation endpoints
-   - User: user@gamestore.demo / Password: User@12345
-   - Admin: admin@gamestore.demo / Password: Admin@12345
----
+- Admin: admin@gamestore.demo / Password: Admin@12345
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -35,11 +31,9 @@ A full-stack ASP.NET Core MVC web application styled after the classic Steam sto
 | Auth | ASP.NET Core Identity |
 | External API | IGDB (via Twitch OAuth2) |
 | Front-end | Bootstrap 5, Bootstrap Icons, Select2 |
-| Language | C# 13, Razor Views |
+| Language | C#, Razor Views |
 
----
-
-## 🏗️ Architecture
+## Architecture
 
 The project follows a clean layered architecture:
 
@@ -55,24 +49,19 @@ Controllers  ──▶  IGameService / IIgdbService  ──▶  DbContext (EF Co
 - **Options pattern** (`IgdbOptions`) binds IGDB credentials from configuration via `IOptions<T>`, keeping secrets out of code
 - **Token caching** in `IgdbService` stores the Twitch OAuth2 access token in memory with expiry tracking, avoiding redundant auth calls
 
----
-
-## 🗄️ Data Model
+## Data Model
 
 ```
 Game  ──< GameGenre >──  Genre
       ──< GamePlatform >──  Platform
       ──── SteamApp (1:1)
 ```
-
 - Many-to-many relationships between `Game` ↔ `Genre` and `Game` ↔ `Platform` via EF Core's implicit join tables
 - One-to-one `Game` ↔ `SteamApp` for Steam metadata
 - `decimal(18,2)` pricing (migrated from `double` for financial accuracy)
 - Nullable `ImagePath` supporting both uploaded local files and external URLs (e.g. IGDB CDN)
 
----
-
-## 🎨 UI Design
+## UI Design
 
 The frontend is a hand-coded tribute to the **classic Steam (circa 2003–2010)** aesthetic:
 
@@ -84,9 +73,7 @@ The frontend is a hand-coded tribute to the **classic Steam (circa 2003–2010)*
 - **Card hover animations** — action panels slide in from the right using CSS transforms
 - **Win2K delete dialog** — fully custom retro popup with beveled button borders, inset separator, and gradient titlebar
 
----
-
-## 🔌 IGDB Integration
+## IGDB Integration
 
 Game data is enriched via the [IGDB API](https://api-docs.igdb.com/):
 
@@ -98,9 +85,7 @@ Game data is enriched via the [IGDB API](https://api-docs.igdb.com/):
 
 Cover images are automatically upgraded from IGDB's thumbnail size (`t_thumb`) to high-resolution (`t_cover_big`).
 
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - [.NET 9 SDK](https://dotnet.microsoft.com/download)
@@ -138,38 +123,18 @@ Cover images are automatically upgraded from IGDB's thumbnail size (`t_thumb`) t
    dotnet watch
    ```
 
-5. **Create an admin account** — register via `/Account/Register`, then grant the `Admin` role. The app seeds the role automatically on startup; you can assign it via the admin email set in `Program.cs` or directly through your database.
+5. **Admin account** — an admin account is automatically seeded on startup with credentials:
+   - Email: `admin@gmail.com`
+   - Password: `Admin@12345`
 
----
+   Simply log in with these credentials. To create additional admin accounts, register a new user and manually assign the `Admin` role via the database.
+6. **User account** - a user account can simply be created through the register page.
 
-## 📁 Project Structure
+## Screenshots
 
-```
-GameStore/
-├── Controllers/         # Thin MVC controllers
-├── Data/                # DbContext (IdentityDbContext)
-├── IgdbModels/          # DTOs for IGDB API responses
-├── Migrations/          # EF Core migration history
-├── Models/              # Domain entities (Game, Genre, Platform…)
-├── Options/             # Strongly-typed config (IgdbOptions)
-├── Services/            # Business logic (GameService, IgdbService)
-├── ViewModels/          # Form view models
-├── Views/               # Razor views
-│   ├── Games/           # Index, Overview, Create, Edit
-│   ├── Account/         # Login, Register
-│   └── Shared/          # Layout, partials
-└── wwwroot/             # Static assets (CSS, JS, images)
-```
+> *WIP*
 
----
-
-## 📸 Screenshots
-
-> *Add screenshots of the game library, overview page, create/edit form, and the Win2K dialog here.*
-
----
-
-## 🙏 Credits
+## Credits
 
 UI design inspired by the iconic Steam storefront created by **Valve Corporation**. All original design concepts and stylistic choices are credited to their respective creators. This project is non-commercial and built purely for learning and portfolio purposes.
 
