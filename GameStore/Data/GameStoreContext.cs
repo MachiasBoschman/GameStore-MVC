@@ -20,6 +20,8 @@ namespace GameStore.Data
             .HasForeignKey<SteamApp>(s => s.GameId)
             .OnDelete(DeleteBehavior.Cascade);
 
+
+
             // Seed Data
             modelBuilder.Entity<Genre>().HasData(
                 // Core genres

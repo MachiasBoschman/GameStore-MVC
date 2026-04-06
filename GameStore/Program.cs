@@ -28,15 +28,28 @@ builder.Services.AddScoped<IGameService, GameService>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<GameStoreContext>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
 
+    // 1. Automatically create the database and apply migrations
+    await context.Database.MigrateAsync();
+
+    // 2. Seed Roles
     if (!await roleManager.RoleExistsAsync("Admin"))
         await roleManager.CreateAsync(new IdentityRole("Admin"));
 
-    var adminUser = await userManager.FindByEmailAsync("admin@gmail.com");
-    if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, "Admin"))
+    // 3. Seed Admin User
+    var adminEmail = "admin@gmail.com";
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+    if (adminUser == null)
+    {
+        adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
+        await userManager.CreateAsync(adminUser, "Admin@12345"); // Use a secure default
         await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
 }
 
 // Redirects towards error page to hide debug info from users.
@@ -61,7 +74,7 @@ app.MapStaticAssets();
 // Defines the expected URL pattern
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Games}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 // Starts listening to HTTP requests

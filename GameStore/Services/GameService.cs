@@ -116,6 +116,10 @@ namespace GameStore.Services
                 await vm.ImageFile.CopyToAsync(stream);
                 existing.ImagePath = "/images/" + fileName;
             }
+            else if (!string.IsNullOrEmpty(vm.Game.ImagePath))
+            {
+                existing.ImagePath = vm.Game.ImagePath;
+            }
         }
 
         // Populate dropdowns for creating or editing views

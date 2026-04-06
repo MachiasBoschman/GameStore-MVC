@@ -34,7 +34,7 @@ namespace GameStore.Migrations
 
                     b.HasIndex("GenresId");
 
-                    b.ToTable("GameGenre");
+                    b.ToTable("GameGenre", (string)null);
                 });
 
             modelBuilder.Entity("GamePlatform", b =>
@@ -49,7 +49,7 @@ namespace GameStore.Migrations
 
                     b.HasIndex("PlatformsId");
 
-                    b.ToTable("GamePlatform");
+                    b.ToTable("GamePlatform", (string)null);
                 });
 
             modelBuilder.Entity("GameStore.Models.Game", b =>
@@ -81,7 +81,7 @@ namespace GameStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
 
                     b.HasData(
                         new
@@ -107,7 +107,7 @@ namespace GameStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
 
                     b.HasData(
                         new
@@ -276,7 +276,7 @@ namespace GameStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Platforms");
+                    b.ToTable("Platforms", (string)null);
 
                     b.HasData(
                         new
@@ -312,7 +312,7 @@ namespace GameStore.Migrations
                     b.HasIndex("GameId")
                         .IsUnique();
 
-                    b.ToTable("SteamApps");
+                    b.ToTable("SteamApps", (string)null);
 
                     b.HasData(
                         new
