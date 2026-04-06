@@ -7,6 +7,8 @@
 <!-- PAGE HEADING -->
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Game.Id" />
+    <input type="hidden" id="igdbImagePath" name="Game.ImagePath" />
+
     <div class="my-4 steam-background-wrapper p-steam-bgwrapper">
         <h1 class="steam-white-text col-12 col-md-10 col-lg-8">
             Edit an item
@@ -29,7 +31,7 @@
                 <label for="thumbnailUpload" class="thumbnail-container">
                     <i class="bi bi-camera"></i>
     
-                    <img id="thumbnailPreview"
+                    <img id="imagePreview"
                          src="@(Model.Game.ImagePath ?? "https://placehold.co/148x84")"
                          class="card-game-thumbnail" />
                     <input type="file" id="thumbnailUpload" asp-for="ImageFile" accept="image/*" style="display: none;" />
@@ -39,8 +41,9 @@
                     <!-- NAME, PLATFORM, TAGS -->
                     <div class="min-width-0 d-flex flex-grow-1 flex-column overflow-hidden">
                         <div class="d-flex align-items-center">
-                            <input type="text" class="form-control h6 price" asp-for="Game.Name" />
+                            <input type="text" class="form-control h6 price" asp-for="Game.Name" id="gameName" />
                             <span asp-validation-for="Game.Name" class="text-danger text-nowrap"></span>
+                            <i class="bi bi-search" id="lookupBtn"></i>
                         </div>
                         <div class="d-flex align-items-center gap-3 my-2">
                             @foreach (var platform in Model.Platforms)
@@ -91,8 +94,10 @@
                 <label asp-for="Game.Description">Description</label>
             </h6>
             <div class="black-box"></div>
+            <div class="textarea-wrapper">
             <textarea type="text" class="form-control steam-grey-text" rows="3" asp-for="Game.Description">
             </textarea>
+            </div>
         </div>
         <input type="submit" class="btn btn-danger" value="Save" />
     </div>
@@ -101,7 +106,8 @@
 
     @await Html.PartialAsync("_ValidationScriptsPartial")
     <script>
-$.validator.setDefaults({ ignore: ':hidden' });        $(document).ready(function(){
+            $.validator.setDefaults({ ignore: ':hidden' });        
+            $(document).ready(function(){
             $('#GenreIds').select2();
             $('#PlatformIds').select2();
             $('#DistributorIds').select2();
@@ -115,7 +121,7 @@ $.validator.setDefaults({ ignore: ':hidden' });        $(document).ready(functio
                 document.getElementById('thumbnailUpload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                document.getElementById('thumbnailPreview').src = URL.createObjectURL(file);
+                        document.getElementById('imagePreview').src = URL.createObjectURL(file);
             }
         });
     </script>

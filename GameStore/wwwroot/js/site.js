@@ -2,6 +2,26 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+document.querySelectorAll('.textarea-wrapper').forEach(wrapper => {
+    const textarea = wrapper.querySelector('textarea');
+    textarea.addEventListener('input', () => {
+        wrapper.dataset.value = textarea.value;
+    });
+    // Populate on load for Edit view
+    wrapper.dataset.value = textarea.value;
+});
+function syncTextareaWrappers() {
+    document.querySelectorAll('.textarea-wrapper').forEach(wrapper => {
+        const textarea = wrapper.querySelector('textarea');
+        if (!textarea) return;
+        textarea.addEventListener('input', () => {
+            wrapper.dataset.value = textarea.value;
+        });
+        wrapper.dataset.value = textarea.value;
+    });
+}
+
+syncTextareaWrappers();
 function typeWriter(element, text, delay = 25) {
     element.value = '';
     let i = 0;
@@ -17,12 +37,15 @@ function typeWriter(element, text, delay = 25) {
     });
 }
 
-function typeWriterTextArea(element, text, delay = 10) {
+function typeWriterTextArea(element, text, delay = 5) {
     element.value = '';
     let i = 0;
     return new Promise(resolve => {
         const interval = setInterval(() => {
             element.value += text[i];
+            // Sync the wrapper so CSS grid height updates
+            const wrapper = element.closest('.textarea-wrapper');
+            if (wrapper) wrapper.dataset.value = element.value;
             i++;
             if (i >= text.length) {
                 clearInterval(interval);
@@ -32,7 +55,6 @@ function typeWriterTextArea(element, text, delay = 10) {
     });
 }
 
-// Only runs on pages that have a lookup button
 const lookupBtn = document.getElementById('lookupBtn');
 if (lookupBtn) {
     lookupBtn.addEventListener('click', async function () {
@@ -40,7 +62,7 @@ if (lookupBtn) {
         if (!name) return;
 
         this.disabled = true;
-        this.textContent = 'Looking up...';
+        this.classList.replace('bi-search', 'bi-cloud-arrow-down');
 
         try {
             const response = await fetch(`/Igdb/Search?name=${encodeURIComponent(name)}`);
@@ -69,8 +91,13 @@ if (lookupBtn) {
             if (data.genreIds?.length > 0)
                 $('#GenreIds').val(data.genreIds.map(String)).trigger('change');
 
-            if (data.platformIds?.length > 0)
-                $('#PlatformIds').val(data.platformIds.map(String)).trigger('change');
+            if (data.platformIds?.length > 0) {
+                document.querySelectorAll('.platform-check').forEach(cb => cb.checked = false);
+                data.platformIds.forEach(id => {
+                    const cb = document.getElementById('platform-' + id);
+                    if (cb) cb.checked = true;
+                });
+            }
 
             await Promise.all(animations);
 
@@ -79,7 +106,7 @@ if (lookupBtn) {
             console.error(err);
         } finally {
             this.disabled = false;
-            this.textContent = 'Lookup';
+            this.classList.replace('bi-cloud-arrow-down', 'bi-search');
         }
     });
 }

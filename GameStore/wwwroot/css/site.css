@@ -189,11 +189,31 @@ hr {
     pointer-events: none; 
 }
 
+.bi-search, .bi-cloud-arrow-down {
+    font-size: 1em;
+}
+
 textarea {
     border: 1px solid #777b52 !important;
 }
     textarea.form-control:focus {
         color: #adb2a7 !important;
+    }
+.textarea-wrapper {
+    display: grid;
+}
+
+    .textarea-wrapper::after {
+        content: attr(data-value) ' '; /* the space prevents collapse on empty */
+        white-space: pre-wrap;
+        visibility: hidden;
+        grid-area: 1 / 1;
+    }
+
+    .textarea-wrapper textarea {
+        resize: none;
+        overflow: hidden;
+        grid-area: 1 / 1;
     }
 /* --- GAME CARDS --- */
 

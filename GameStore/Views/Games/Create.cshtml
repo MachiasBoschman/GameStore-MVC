@@ -41,7 +41,7 @@
                         <div class="d-flex align-items-center">
                             <input type="text" class="form-control h6 price" asp-for="Game.Name" id="gameName"/>
                             <span asp-validation-for="Game.Name" class="text-danger text-nowrap"></span>
-                            <button type="button" class="btn btn-secondary" id="lookupBtn">Lookup</button>
+                            <i class="bi bi-search" id="lookupBtn"></i>
                         </div>
                         <div class="d-flex align-items-center gap-3 my-2">
                             @foreach (var platform in Model.Platforms)
@@ -95,8 +95,10 @@
                 <label asp-for="Game.Description">Description</label>
             </h6>
             <div class="black-box"></div>
+            <div class="textarea-wrapper">
             <textarea type="text" class="form-control steam-grey-text" rows="3" asp-for="Game.Description">
             </textarea>
+            </div>
         </div>
 
         <input type="submit" class="btn btn-danger" value="Save" />
@@ -125,4 +127,5 @@
             }
         });
     </script>
+
 }
