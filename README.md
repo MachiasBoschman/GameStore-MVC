@@ -130,9 +130,24 @@ Cover images are automatically upgraded from IGDB's thumbnail size (`t_thumb`) t
    Simply log in with these credentials. To create additional admin accounts, register a new user and manually assign the `Admin` role via the database.
 6. **User account** - a user account can simply be created through the register page.
 
-## Screenshots
+## Media & Screenshots
 
-> *WIP*
+### Video Demo
+<video src="./docs/CreationProcess.mp4" controls="controls" style="max-width: 100%;">
+  Your browser does not support the video tag.
+</video>
+
+### User Experience
+![App GIF](./docs/UserExperience.gif)
+
+### Page Gallery
+| Main Storefront | Game Overview |
+| :---: | :---: |
+| ![Index](./docs/Index.png) | ![Overview](./docs/Overview.png) |
+
+| Account Registration | Mobile Responsiveness |
+| :---: | :---: |
+| ![Register](./docs/Register.png) | ![Responsiveness](./docs/Responsiveness.png) |
 
 ## Credits
 
