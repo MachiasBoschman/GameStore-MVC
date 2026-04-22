@@ -56,10 +56,6 @@ nunit-*.xml
 # Visual Studio folder
 .vs/
 
-# App Settings
-appsettings.json
-appsettings.Development.json
-
 # User Specific Files
 *.user
 
